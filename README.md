@@ -4,9 +4,9 @@ Word processor/editor windows application made using Java Swing following the MV
 
 ## Main Features
 * Type text
-* Word Count
-* Character Count
-* Line conut
+* Word count
+* Character count
+* Line count
 * Spell check
 * Save
 * Open
