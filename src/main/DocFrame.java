@@ -24,6 +24,9 @@ public class DocFrame extends JFrame{
 	private JLabel linesTF;
 	private JLabel wordsTF;
 	private JLabel spellingWarningTF;
+	
+	protected JMenuItem saveAsBtn;
+	
 	private ActionListener al;
 	private KeyListener kl;
 	/**
@@ -47,10 +50,10 @@ public class DocFrame extends JFrame{
 		menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
 		JMenuItem newFileItem = new JMenuItem("New");
-		JMenuItem saveFileItem = new JMenuItem("Save");
+		saveAsBtn = new JMenuItem("Save As");
 		JMenuItem openFileItem = new JMenuItem("Open");
 		fileMenu.add(newFileItem);
-		fileMenu.add(saveFileItem);
+		fileMenu.add(saveAsBtn);
 		fileMenu.add(openFileItem);
 		menuBar.add(fileMenu);
 		
@@ -82,6 +85,7 @@ public class DocFrame extends JFrame{
 		this.kl = controller.getKeyController();
 		
 		textPane.addKeyListener(kl);
+		saveAsBtn.addActionListener(al);
 	}
 	protected void updateCounts(int lineCount, int wordCount) {
 		linesTF.setText("Lines: " + lineCount);
