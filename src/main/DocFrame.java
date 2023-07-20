@@ -2,7 +2,10 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -10,16 +13,19 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
 public class DocFrame extends JFrame{
 	private final int width = 600;
 	private final int height = 500;
-	private JTextArea mainTA;
+	protected JTextPane textPane;
 	private JMenuBar menuBar;
 	private JPanel statusBar;
 	private JLabel linesTF;
 	private JLabel wordsTF;
 	private JLabel spellingWarningTF;
+	private ActionListener al;
+	private KeyListener kl;
 	/**
 	 * 
 	 */
@@ -35,8 +41,8 @@ public class DocFrame extends JFrame{
         buildLayout();
 	}
 	private void buildLayout() {
-		mainTA = new JTextArea();
-		this.add(mainTA, BorderLayout.CENTER);
+		textPane = new JTextPane();
+		this.add(textPane, BorderLayout.CENTER);
 		
 		menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
@@ -70,5 +76,16 @@ public class DocFrame extends JFrame{
 		statusBar.add(wordsTF);
 		statusBar.add(spellingWarningTF);
 		this.add(statusBar, BorderLayout.SOUTH);
+	}
+	public void setListeners(Controller controller) {
+		this.al = controller.getActionController();
+		this.kl = controller.getKeyController();
+		
+		textPane.addKeyListener(kl);
+	}
+	protected void updateCounts(int lineCount, int wordCount) {
+		linesTF.setText("Lines: " + lineCount);
+		wordsTF.setText("Words: " + wordCount);
+		textPane.invalidate();
 	}
 }
