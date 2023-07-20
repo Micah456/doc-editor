@@ -4,8 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.nio.file.FileSystemNotFoundException;
 
+import javax.swing.JFileChooser;
 import javax.swing.JTextPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import document.Document;
 
@@ -27,7 +31,9 @@ public class Controller {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			
+			if(e.getSource() == docFrame.saveAsBtn) {
+				saveAs();
+			}
 			
 		}
 		
@@ -50,8 +56,8 @@ public class Controller {
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
 			if(e.getSource() == docFrame.textPane) {
-				System.out.println("Key released on text pane");
-				System.out.println("Updating counts");
+				//System.out.println("Key released on text pane");
+				//System.out.println("Updating counts");
 				int[] counts = calculateCounts(docFrame.textPane);
 				docFrame.updateCounts(counts[0], counts[1]);
 			}
@@ -73,5 +79,24 @@ public class Controller {
 		Document d = new Document(textPane.getText());
 		int[] results = {d.getNumLines(), d.getNumWords()};
 		return results;
+	}
+	private void saveAs() {
+		if(dataHandler.saveFile(docFrame.textPane.getText(), getSaveFilePath())) {
+			System.out.println("Save successful!");
+		}
+		else {
+			System.out.println("Save unsuccessful");
+		}
+		
+	}
+	private String getSaveFilePath() {
+		JFileChooser fc = new JFileChooser();
+		FileFilter filter = new FileNameExtensionFilter("Text Documents", "txt");
+		fc.setFileFilter(filter);
+		int r = fc.showSaveDialog(docFrame);
+		if (r == JFileChooser.APPROVE_OPTION){  
+	        return fc.getSelectedFile().getAbsolutePath();  
+	    }  
+		return "";
 	}
 }
