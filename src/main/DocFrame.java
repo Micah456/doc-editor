@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,6 +27,7 @@ public class DocFrame extends JFrame{
 	private JLabel spellingWarningTF;
 	
 	protected JMenuItem saveAsBtn;
+	protected JMenuItem openBtn;
 	
 	private ActionListener al;
 	private KeyListener kl;
@@ -51,10 +53,10 @@ public class DocFrame extends JFrame{
 		JMenu fileMenu = new JMenu("File");
 		JMenuItem newFileItem = new JMenuItem("New");
 		saveAsBtn = new JMenuItem("Save As");
-		JMenuItem openFileItem = new JMenuItem("Open");
+		openBtn = new JMenuItem("Open");
 		fileMenu.add(newFileItem);
 		fileMenu.add(saveAsBtn);
-		fileMenu.add(openFileItem);
+		fileMenu.add(openBtn);
 		menuBar.add(fileMenu);
 		
 		JMenu editMenu = new JMenu("Edit");
@@ -86,10 +88,16 @@ public class DocFrame extends JFrame{
 		
 		textPane.addKeyListener(kl);
 		saveAsBtn.addActionListener(al);
+		openBtn.addActionListener(al);
 	}
 	protected void updateCounts(int lineCount, int wordCount) {
 		linesTF.setText("Lines: " + lineCount);
 		wordsTF.setText("Words: " + wordCount);
 		textPane.invalidate();
+	}
+	protected void openFileInDocFrame(String text, String fileName) {
+		textPane.setText(text);
+		this.setTitle("Word Processor - " + fileName);
+		this.invalidate();
 	}
 }

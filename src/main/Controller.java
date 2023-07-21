@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.nio.file.FileSystemNotFoundException;
 
 import javax.swing.JFileChooser;
@@ -34,6 +35,9 @@ public class Controller {
 			if(e.getSource() == docFrame.saveAsBtn) {
 				saveAs();
 			}
+			else if(e.getSource() == docFrame.openBtn) {
+				open();
+			}
 			
 		}
 		
@@ -56,10 +60,7 @@ public class Controller {
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
 			if(e.getSource() == docFrame.textPane) {
-				//System.out.println("Key released on text pane");
-				//System.out.println("Updating counts");
-				int[] counts = calculateCounts(docFrame.textPane);
-				docFrame.updateCounts(counts[0], counts[1]);
+				updateCounts();
 			}
 		}
 		
@@ -69,6 +70,10 @@ public class Controller {
 	}
 	public KeyController getKeyController() {
 		return this.kc;
+	}
+	private void updateCounts() {
+		int[] counts = calculateCounts(docFrame.textPane);
+		docFrame.updateCounts(counts[0], counts[1]);
 	}
 	/**
 	 * Calculates the line and word counts for a given JTextPane
@@ -89,6 +94,18 @@ public class Controller {
 		}
 		
 	}
+	private void open() {
+		//Note: currFile is set once dataHandler successfully reads the file
+		File fileToOpen = getFileToOpen();
+		if(fileToOpen != null) {
+			String text = dataHandler.readFile(fileToOpen);
+			if(text != null) {
+				docFrame.openFileInDocFrame(text, fileToOpen.getName());
+				updateCounts();
+			}
+		}
+		
+	}
 	private String getSaveFilePath() {
 		JFileChooser fc = new JFileChooser();
 		FileFilter filter = new FileNameExtensionFilter("Text Documents", "txt");
@@ -98,5 +115,15 @@ public class Controller {
 	        return fc.getSelectedFile().getAbsolutePath();  
 	    }  
 		return "";
+	}
+	private File getFileToOpen() {
+		JFileChooser fc = new JFileChooser();
+		FileFilter filter = new FileNameExtensionFilter("Text Documents", "txt");
+		fc.setFileFilter(filter);
+		int r = fc.showOpenDialog(docFrame);
+		if (r == JFileChooser.APPROVE_OPTION){  
+	        return fc.getSelectedFile();
+	    }  
+		return null;
 	}
 }
