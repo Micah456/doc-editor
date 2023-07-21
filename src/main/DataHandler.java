@@ -11,6 +11,10 @@ public class DataHandler {
 	//protected String currFileName;
 	//protected String currDirectory;
 	protected boolean saveFile(String text, String path ) {
+		if(path == "") {
+			//To stop file from saving if no file name given
+			return false;
+		}
 		path = appendFileExt(path);
 		System.out.println("Path: " + path);
 		try {
@@ -56,5 +60,14 @@ public class DataHandler {
 			path += ".txt";
 		}
 		return path;
+	}
+	protected String getCurrDirectory() throws Exception {
+		try {
+			return currFile.getParentFile().getAbsolutePath();
+		}catch(Exception e) {
+			throw new Exception("Cannot get current directory or doesn't exist");
+		}
+		
+		
 	}
 }

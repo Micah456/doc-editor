@@ -86,7 +86,8 @@ public class Controller {
 		return results;
 	}
 	private void saveAs() {
-		if(dataHandler.saveFile(docFrame.textPane.getText(), getSaveFilePath())) {
+		String saveFilePath = getSaveFilePath();
+		if(saveFilePath != null && dataHandler.saveFile(docFrame.textPane.getText(), getSaveFilePath())) {
 			System.out.println("Save successful!");
 		}
 		else {
@@ -103,27 +104,44 @@ public class Controller {
 				docFrame.openFileInDocFrame(text, fileToOpen.getName());
 				updateCounts();
 			}
+			else{
+				System.out.println("Open aborted: file could not be read.");
+			}
+		}
+		else {
+			System.out.println("Open aborted: no file selected/found.");
 		}
 		
 	}
 	private String getSaveFilePath() {
-		JFileChooser fc = new JFileChooser();
-		FileFilter filter = new FileNameExtensionFilter("Text Documents", "txt");
-		fc.setFileFilter(filter);
+		JFileChooser fc = getJFileChooser();
 		int r = fc.showSaveDialog(docFrame);
 		if (r == JFileChooser.APPROVE_OPTION){  
 	        return fc.getSelectedFile().getAbsolutePath();  
-	    }  
-		return "";
+	    }
+		return null;
 	}
 	private File getFileToOpen() {
-		JFileChooser fc = new JFileChooser();
-		FileFilter filter = new FileNameExtensionFilter("Text Documents", "txt");
-		fc.setFileFilter(filter);
+		JFileChooser fc = getJFileChooser();
 		int r = fc.showOpenDialog(docFrame);
 		if (r == JFileChooser.APPROVE_OPTION){  
 	        return fc.getSelectedFile();
 	    }  
 		return null;
+	}
+	private JFileChooser getJFileChooser() {
+		JFileChooser fc;
+		try {
+			String directory = dataHandler.getCurrDirectory();
+			System.out.println("Directory is: " + directory);
+			fc = new JFileChooser(directory);
+			
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+			fc = new JFileChooser();
+		}
+		FileFilter filter = new FileNameExtensionFilter("Text Documents", "txt");
+		fc.setFileFilter(filter);
+		return fc;
 	}
 }
