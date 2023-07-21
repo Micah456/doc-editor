@@ -14,7 +14,14 @@ public class Document {
 		if(this.text.isBlank()) {
 			return 0;
 		}
-		return this.text.split("[\s\n]+").length;
+		String[] tokens = this.text.split("[\s\n]+");
+		int words = tokens.length;
+		for(String s : tokens) {
+			if(s.matches("[^a-zA-Z0-9]+")) {
+				words--;
+			}
+		}
+		return words;
 		
 	}
 	/**
