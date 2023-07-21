@@ -23,6 +23,8 @@ public class DataHandler {
             	fw.write(text.charAt(i));
             }
             fw.close();
+            File f = new File(path);
+            this.currFile = f;
             return true;
         }
         catch (Exception e) {

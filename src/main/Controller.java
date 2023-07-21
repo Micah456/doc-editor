@@ -87,8 +87,9 @@ public class Controller {
 	}
 	private void saveAs() {
 		String saveFilePath = getSaveFilePath();
-		if(saveFilePath != null && dataHandler.saveFile(docFrame.textPane.getText(), getSaveFilePath())) {
+		if(saveFilePath != null && dataHandler.saveFile(docFrame.textPane.getText(), saveFilePath)) {
 			System.out.println("Save successful!");
+			docFrame.updateTitle(dataHandler.currFile.getName(), true);
 		}
 		else {
 			System.out.println("Save unsuccessful");

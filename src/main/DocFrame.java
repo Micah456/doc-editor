@@ -97,7 +97,13 @@ public class DocFrame extends JFrame{
 	}
 	protected void openFileInDocFrame(String text, String fileName) {
 		textPane.setText(text);
-		this.setTitle("Word Processor - " + fileName);
+		updateTitle(fileName, false);
 		this.invalidate();
+	}
+	protected void updateTitle(String fileName, boolean invalidate) {
+		this.setTitle("Word Processor - " + fileName);
+		if(invalidate) {
+			this.invalidate();
+		}
 	}
 }
