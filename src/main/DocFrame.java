@@ -34,6 +34,7 @@ public class DocFrame extends JFrame{
 	protected JMenuItem openBtn;
 	protected JMenuItem newBtn;
 	protected JMenuItem saveBtn;
+	protected JMenuItem copyBtn;
 	
 	private ActionListener al;
 	private KeyListener kl;
@@ -73,11 +74,11 @@ public class DocFrame extends JFrame{
 		JMenu editMenu = new JMenu("Edit");
 		JMenuItem undoEditItem = new JMenuItem("Undo");
 		JMenuItem redoEditItem = new JMenuItem("Redo");
-		JMenuItem copyEditItem = new JMenuItem("Copy");
+		copyBtn = new JMenuItem("Copy");
 		JMenuItem pasteEditItem = new JMenuItem("Paste");
 		editMenu.add(undoEditItem);
 		editMenu.add(redoEditItem);
-		editMenu.add(copyEditItem);
+		editMenu.add(copyBtn);
 		editMenu.add(pasteEditItem);
 		menuBar.add(editMenu);
 
@@ -105,6 +106,7 @@ public class DocFrame extends JFrame{
 		saveAsBtn.addActionListener(al);
 		openBtn.addActionListener(al);
 		newBtn.addActionListener(al);
+		copyBtn.addActionListener(al);
 		this.addWindowListener(wl);
 	}
 	protected void updateCounts(int lineCount, int wordCount) {

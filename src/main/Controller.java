@@ -7,8 +7,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.nio.file.FileSystemNotFoundException;
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -17,7 +15,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import document.Document;
 
 public class Controller {
@@ -54,7 +51,9 @@ public class Controller {
 			else if(e.getSource() == docFrame.saveBtn) {
 				save();
 			}
-			
+			else if(e.getSource() == docFrame.copyBtn) {
+				dataHandler.copyData(docFrame.textPane);
+			}
 		}
 		
 	}
@@ -76,7 +75,7 @@ public class Controller {
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
 			if(e.getSource() == docFrame.textPane) {
-				updateCounts();
+				//updateCounts();
 			}
 		}
 		
@@ -86,6 +85,7 @@ public class Controller {
 		@Override
 		public void insertUpdate(DocumentEvent e) {
 			// TODO Auto-generated method stub
+			updateCounts();
 			dataHandler.updateFileUpdateStatus(true);
 			enableSaveBtn();
 		}
@@ -93,6 +93,7 @@ public class Controller {
 		@Override
 		public void removeUpdate(DocumentEvent e) {
 			// TODO Auto-generated method stub
+			updateCounts();
 			dataHandler.updateFileUpdateStatus(true);
 			enableSaveBtn();
 		}
@@ -100,6 +101,7 @@ public class Controller {
 		@Override
 		public void changedUpdate(DocumentEvent e) {
 			// TODO Auto-generated method stub
+			updateCounts();
 			dataHandler.updateFileUpdateStatus(true);
 			enableSaveBtn();
 		}
@@ -282,8 +284,6 @@ public class Controller {
 			saveAs();
 		}
 	}
-	
-	
 	private String getSaveFilePath() {
 		JFileChooser fc = getJFileChooser();
 		int r = fc.showSaveDialog(docFrame);
