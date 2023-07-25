@@ -6,20 +6,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowListener;
-import java.io.File;
-
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
-import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentListener;
 
@@ -35,6 +29,7 @@ public class DocFrame extends JFrame{
 	private JLabel spellingWarningTF;
 	
 	protected JPopupMenu popupMenu;
+	protected JMenuItem copyPopBtn;
 	
 	protected JMenuItem saveAsBtn;
 	protected JMenuItem openBtn;
@@ -122,6 +117,8 @@ public class DocFrame extends JFrame{
 		newBtn.addActionListener(al);
 		copyBtn.addActionListener(al);
 		
+		copyPopBtn.addActionListener(al);
+		
 		this.addWindowListener(wl);
 	}
 	protected void updateCounts(int lineCount, int wordCount) {
@@ -147,7 +144,7 @@ public class DocFrame extends JFrame{
 	private JPopupMenu createPopupMenu() {
 		JPopupMenu pm = new JPopupMenu();
 		JMenuItem cutPopBtn = new JMenuItem("Cut");
-		JMenuItem copyPopBtn = new JMenuItem("Copy");
+		copyPopBtn = new JMenuItem("Copy");
 		JMenuItem pastePopBtn = new JMenuItem("Paste");
 		JMenuItem deletePopBtn = new JMenuItem("Delete");
 		JMenuItem selectAllPopBtn = new JMenuItem("Select All");

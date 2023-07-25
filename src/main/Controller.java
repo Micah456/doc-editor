@@ -59,7 +59,8 @@ public class Controller {
 			else if(e.getSource() == docFrame.saveBtn) {
 				save();
 			}
-			else if(e.getSource() == docFrame.copyBtn) {
+			else if(e.getSource() == docFrame.copyBtn ||
+					e.getSource() == docFrame.copyPopBtn) {
 				dataHandler.copyData(docFrame.textPane);
 			}
 		}
@@ -184,9 +185,11 @@ public class Controller {
 			// TODO Auto-generated method stub
 			if(e.getDot() != e.getMark()) {
 				docFrame.copyBtn.setEnabled(true);
+				docFrame.copyPopBtn.setEnabled(true);
 			}
 			else {
 				docFrame.copyBtn.setEnabled(false);
+				docFrame.copyPopBtn.setEnabled(false);
 			}
 		}
 	}
