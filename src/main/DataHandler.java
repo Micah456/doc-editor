@@ -80,4 +80,13 @@ public class DataHandler {
 		this.fileUpdated = status;
 		System.out.println("File update? " + this.fileUpdated);
 	}
+	/**
+	 * Sets currFile as null and fileUpdated as false.
+	 * Must be called after clearing docFrame or fileUpdated
+	 * will be set to true afterwards
+	 */
+	protected void newFile() {
+		this.currFile = null;
+		updateFileUpdateStatus(false);
+	}
 }
