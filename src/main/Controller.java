@@ -51,6 +51,9 @@ public class Controller {
 			else if(e.getSource() == docFrame.newBtn) {
 				newFile();
 			}
+			else if(e.getSource() == docFrame.saveBtn) {
+				save();
+			}
 			
 		}
 		
@@ -84,18 +87,21 @@ public class Controller {
 		public void insertUpdate(DocumentEvent e) {
 			// TODO Auto-generated method stub
 			dataHandler.updateFileUpdateStatus(true);
+			enableSaveBtn();
 		}
 
 		@Override
 		public void removeUpdate(DocumentEvent e) {
 			// TODO Auto-generated method stub
 			dataHandler.updateFileUpdateStatus(true);
+			enableSaveBtn();
 		}
 
 		@Override
 		public void changedUpdate(DocumentEvent e) {
 			// TODO Auto-generated method stub
 			dataHandler.updateFileUpdateStatus(true);
+			enableSaveBtn();
 		}
 		
 	}
@@ -192,6 +198,7 @@ public class Controller {
 			System.out.println("Save successful!");
 			docFrame.updateTitle(dataHandler.currFile.getName(), true);
 			dataHandler.updateFileUpdateStatus(false);
+			docFrame.saveBtn.setEnabled(false);
 		}
 		else {
 			System.out.println("Save unsuccessful");
@@ -214,9 +221,10 @@ public class Controller {
 				
 			}
 		}
-		docFrame.textPane.setText("");
+		docFrame.newFile();
 		dataHandler.newFile();
 		updateCounts();
+		docFrame.saveBtn.setEnabled(false);
 		
 	}
 	private void open() {
@@ -243,6 +251,7 @@ public class Controller {
 				docFrame.openFileInDocFrame(text, fileToOpen.getName());
 				updateCounts();
 				dataHandler.updateFileUpdateStatus(false);
+				docFrame.saveBtn.setEnabled(false);
 			}
 			else{
 				System.out.println("Open aborted: file could not be read.");
@@ -253,6 +262,28 @@ public class Controller {
 		}
 		
 	}
+	private void save() {
+		if(dataHandler.currFile != null) {
+			String path = dataHandler.currFile.getAbsolutePath();
+			System.out.println("Saving to: " + path);
+			if(dataHandler.saveFile(docFrame.textPane.getText(), path)) {
+				System.out.println("File overwritten");
+				docFrame.updateTitle(dataHandler.currFile.getName(), true);
+				dataHandler.updateFileUpdateStatus(false);
+				docFrame.saveBtn.setEnabled(false);
+				return;
+			}
+			else {
+				System.out.println("An error occurred while saving");
+			}
+		}
+		else {
+			System.out.println("currFile doesn't exist - switch to saveas");
+			saveAs();
+		}
+	}
+	
+	
 	private String getSaveFilePath() {
 		JFileChooser fc = getJFileChooser();
 		int r = fc.showSaveDialog(docFrame);
@@ -287,5 +318,10 @@ public class Controller {
 	protected int showUnsavedWarning() {
 		int a = JOptionPane.showConfirmDialog(docFrame,"You have unsaved changes. Do you want to save?");  
 		return a;
+	}
+	private void enableSaveBtn() {
+		if(!docFrame.saveBtn.isEnabled()) {
+			docFrame.saveBtn.setEnabled(true);
+		}
 	}
 }

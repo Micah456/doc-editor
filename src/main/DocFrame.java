@@ -22,6 +22,7 @@ import javax.swing.event.DocumentListener;
 public class DocFrame extends JFrame{
 	private final int width = 600;
 	private final int height = 500;
+	private final String title = "Word Processor";
 	protected JTextPane textPane;
 	private JMenuBar menuBar;
 	private JPanel statusBar;
@@ -32,6 +33,7 @@ public class DocFrame extends JFrame{
 	protected JMenuItem saveAsBtn;
 	protected JMenuItem openBtn;
 	protected JMenuItem newBtn;
+	protected JMenuItem saveBtn;
 	
 	private ActionListener al;
 	private KeyListener kl;
@@ -43,7 +45,7 @@ public class DocFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
 	
 	public DocFrame() {
-		this.setTitle("Word Processor");
+		this.setTitle(this.title);
         //this.setIconImage();
         this.setSize(width, height);
         this.setLocation(0,0);
@@ -60,7 +62,10 @@ public class DocFrame extends JFrame{
 		newBtn = new JMenuItem("New");
 		saveAsBtn = new JMenuItem("Save As");
 		openBtn = new JMenuItem("Open");
+		saveBtn = new JMenuItem("Save");
+		saveBtn.setEnabled(false);
 		fileMenu.add(newBtn);
+		fileMenu.add(saveBtn);
 		fileMenu.add(saveAsBtn);
 		fileMenu.add(openBtn);
 		menuBar.add(fileMenu);
@@ -96,6 +101,7 @@ public class DocFrame extends JFrame{
 		
 		textPane.addKeyListener(kl);
 		textPane.getDocument().addDocumentListener(dl);
+		saveBtn.addActionListener(al);
 		saveAsBtn.addActionListener(al);
 		openBtn.addActionListener(al);
 		newBtn.addActionListener(al);
@@ -112,9 +118,13 @@ public class DocFrame extends JFrame{
 		this.invalidate();
 	}
 	protected void updateTitle(String fileName, boolean invalidate) {
-		this.setTitle("Word Processor - " + fileName);
+		this.setTitle(this.title + " - " + fileName);
 		if(invalidate) {
 			this.invalidate();
 		}
+	}
+	protected void newFile() {
+		this.textPane.setText("");
+		this.setTitle(title);
 	}
 }
