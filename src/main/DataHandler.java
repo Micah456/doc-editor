@@ -1,10 +1,15 @@
 package main;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import javax.swing.JTextPane;
 
 public class DataHandler {
 	protected File currFile; 
@@ -88,5 +93,10 @@ public class DataHandler {
 	protected void newFile() {
 		this.currFile = null;
 		updateFileUpdateStatus(false);
+	}
+	protected void copyData(JTextPane textPane) {
+		StringSelection stringSelection = new StringSelection(textPane.getSelectedText());
+	    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+	    clipboard.setContents(stringSelection, null);
 	}
 }
