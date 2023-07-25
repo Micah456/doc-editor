@@ -11,6 +11,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
@@ -22,6 +24,7 @@ public class Controller {
 	private KeyController kc;
 	private DocumentController dc;
 	private WindowController wc;
+	private CaretController cc;
 	private DocFrame docFrame;
 	private DataHandler dataHandler;
 	
@@ -30,6 +33,7 @@ public class Controller {
 		this.ac = new ActionController();
 		this.dc = new DocumentController();
 		this.wc = new WindowController();
+		this.cc = new CaretController();
 		this.docFrame = docFrame;
 		this.dataHandler = dataHandler;
 		
@@ -167,6 +171,19 @@ public class Controller {
 		}
 		
 	}
+	public class CaretController implements CaretListener {
+
+		@Override
+		public void caretUpdate(CaretEvent e) {
+			// TODO Auto-generated method stub
+			if(e.getDot() != e.getMark()) {
+				docFrame.copyBtn.setEnabled(true);
+			}
+			else {
+				docFrame.copyBtn.setEnabled(false);
+			}
+		}
+	}
 	
 	public ActionController getActionController() {
 		return this.ac;
@@ -179,6 +196,9 @@ public class Controller {
 	}
 	public WindowController getWindowController() {
 		return this.wc;
+	}
+	public CaretController getCaretController() {
+		return this.cc;
 	}
 	private void updateCounts() {
 		int[] counts = calculateCounts(docFrame.textPane);

@@ -17,6 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentListener;
 
 public class DocFrame extends JFrame{
@@ -40,6 +42,7 @@ public class DocFrame extends JFrame{
 	private KeyListener kl;
 	private DocumentListener dl;
 	private WindowListener wl;
+	private CaretListener cl;
 	/**
 	 * 
 	 */
@@ -76,6 +79,7 @@ public class DocFrame extends JFrame{
 		JMenuItem redoEditItem = new JMenuItem("Redo");
 		copyBtn = new JMenuItem("Copy");
 		JMenuItem pasteEditItem = new JMenuItem("Paste");
+		copyBtn.setEnabled(false);
 		editMenu.add(undoEditItem);
 		editMenu.add(redoEditItem);
 		editMenu.add(copyBtn);
@@ -99,9 +103,11 @@ public class DocFrame extends JFrame{
 		this.kl = controller.getKeyController();
 		this.dl = controller.getDocumentController();
 		this.wl = controller.getWindowController();
+		this.cl = controller.getCaretController();
 		
 		textPane.addKeyListener(kl);
 		textPane.getDocument().addDocumentListener(dl);
+		textPane.addCaretListener(cl);
 		saveBtn.addActionListener(al);
 		saveAsBtn.addActionListener(al);
 		openBtn.addActionListener(al);
