@@ -122,4 +122,8 @@ public class DocFrame extends JFrame{
 			this.invalidate();
 		}
 	}
+	protected void newFile() {
+		this.textPane.setText("");
+		this.setTitle("Word Processor");
+	}
 }

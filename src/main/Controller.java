@@ -221,7 +221,7 @@ public class Controller {
 				
 			}
 		}
-		docFrame.textPane.setText("");
+		docFrame.newFile();
 		dataHandler.newFile();
 		updateCounts();
 		docFrame.saveBtn.setEnabled(false);
@@ -263,8 +263,24 @@ public class Controller {
 		
 	}
 	private void save() {
-		System.out.println("Implement save");
-		//docFrame.saveBtn.setEnabled(false);
+		if(dataHandler.currFile != null) {
+			String path = dataHandler.currFile.getAbsolutePath();
+			System.out.println("Saving to: " + path);
+			if(dataHandler.saveFile(docFrame.textPane.getText(), path)) {
+				System.out.println("File overwritten");
+				docFrame.updateTitle(dataHandler.currFile.getName(), true);
+				dataHandler.updateFileUpdateStatus(false);
+				docFrame.saveBtn.setEnabled(false);
+				return;
+			}
+			else {
+				System.out.println("An error occurred while saving");
+			}
+		}
+		else {
+			System.out.println("currFile doesn't exist - switch to saveas");
+			saveAs();
+		}
 	}
 	
 	
