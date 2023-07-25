@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowListener;
 import java.io.File;
 
 import javax.swing.JButton;
@@ -12,9 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.event.DocumentListener;
 
 public class DocFrame extends JFrame{
 	private final int width = 600;
@@ -31,6 +34,8 @@ public class DocFrame extends JFrame{
 	
 	private ActionListener al;
 	private KeyListener kl;
+	private DocumentListener dl;
+	private WindowListener wl;
 	/**
 	 * 
 	 */
@@ -41,7 +46,7 @@ public class DocFrame extends JFrame{
         //this.setIconImage();
         this.setSize(width, height);
         this.setLocation(0,0);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setLayout(new BorderLayout());
         buildLayout();
 	}
@@ -85,10 +90,14 @@ public class DocFrame extends JFrame{
 	public void setListeners(Controller controller) {
 		this.al = controller.getActionController();
 		this.kl = controller.getKeyController();
+		this.dl = controller.getDocumentController();
+		this.wl = controller.getWindowController();
 		
 		textPane.addKeyListener(kl);
+		textPane.getDocument().addDocumentListener(dl);
 		saveAsBtn.addActionListener(al);
 		openBtn.addActionListener(al);
+		this.addWindowListener(wl);
 	}
 	protected void updateCounts(int lineCount, int wordCount) {
 		linesTF.setText("Lines: " + lineCount);

@@ -8,8 +8,12 @@ import java.io.IOException;
 
 public class DataHandler {
 	protected File currFile; 
+	protected boolean fileUpdated;
 	//protected String currFileName;
 	//protected String currDirectory;
+	public DataHandler() {
+		this.fileUpdated = false;
+	}
 	protected boolean saveFile(String text, String path ) {
 		if(path == "") {
 			//To stop file from saving if no file name given
@@ -71,5 +75,9 @@ public class DataHandler {
 		}
 		
 		
+	}
+	protected void updateFileUpdateStatus(boolean status) {
+		this.fileUpdated = status;
+		System.out.println("File update? " + this.fileUpdated);
 	}
 }
