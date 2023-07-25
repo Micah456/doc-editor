@@ -22,6 +22,7 @@ import javax.swing.event.DocumentListener;
 public class DocFrame extends JFrame{
 	private final int width = 600;
 	private final int height = 500;
+	private final String title = "Word Processor";
 	protected JTextPane textPane;
 	private JMenuBar menuBar;
 	private JPanel statusBar;
@@ -44,7 +45,7 @@ public class DocFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
 	
 	public DocFrame() {
-		this.setTitle("Word Processor");
+		this.setTitle(this.title);
         //this.setIconImage();
         this.setSize(width, height);
         this.setLocation(0,0);
@@ -117,13 +118,13 @@ public class DocFrame extends JFrame{
 		this.invalidate();
 	}
 	protected void updateTitle(String fileName, boolean invalidate) {
-		this.setTitle("Word Processor - " + fileName);
+		this.setTitle(this.title + " - " + fileName);
 		if(invalidate) {
 			this.invalidate();
 		}
 	}
 	protected void newFile() {
 		this.textPane.setText("");
-		this.setTitle("Word Processor");
+		this.setTitle(title);
 	}
 }
