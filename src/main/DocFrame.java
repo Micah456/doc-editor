@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowListener;
 import java.io.File;
 
@@ -15,6 +16,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.event.CaretEvent;
@@ -32,6 +34,8 @@ public class DocFrame extends JFrame{
 	private JLabel wordsTF;
 	private JLabel spellingWarningTF;
 	
+	protected JPopupMenu popupMenu;
+	
 	protected JMenuItem saveAsBtn;
 	protected JMenuItem openBtn;
 	protected JMenuItem newBtn;
@@ -43,6 +47,7 @@ public class DocFrame extends JFrame{
 	private DocumentListener dl;
 	private WindowListener wl;
 	private CaretListener cl;
+	private MouseListener ml;
 	/**
 	 * 
 	 */
@@ -97,6 +102,7 @@ public class DocFrame extends JFrame{
 		statusBar.add(wordsTF);
 		statusBar.add(spellingWarningTF);
 		this.add(statusBar, BorderLayout.SOUTH);
+		popupMenu = createPopupMenu();
 	}
 	public void setListeners(Controller controller) {
 		this.al = controller.getActionController();
@@ -104,15 +110,18 @@ public class DocFrame extends JFrame{
 		this.dl = controller.getDocumentController();
 		this.wl = controller.getWindowController();
 		this.cl = controller.getCaretController();
+		this.ml = controller.getMouseController();
 		
 		textPane.addKeyListener(kl);
 		textPane.getDocument().addDocumentListener(dl);
 		textPane.addCaretListener(cl);
+		textPane.addMouseListener(ml);
 		saveBtn.addActionListener(al);
 		saveAsBtn.addActionListener(al);
 		openBtn.addActionListener(al);
 		newBtn.addActionListener(al);
 		copyBtn.addActionListener(al);
+		
 		this.addWindowListener(wl);
 	}
 	protected void updateCounts(int lineCount, int wordCount) {
@@ -134,5 +143,19 @@ public class DocFrame extends JFrame{
 	protected void newFile() {
 		this.textPane.setText("");
 		this.setTitle(title);
+	}
+	private JPopupMenu createPopupMenu() {
+		JPopupMenu pm = new JPopupMenu();
+		JMenuItem cutPopBtn = new JMenuItem("Cut");
+		JMenuItem copyPopBtn = new JMenuItem("Copy");
+		JMenuItem pastePopBtn = new JMenuItem("Paste");
+		JMenuItem deletePopBtn = new JMenuItem("Delete");
+		JMenuItem selectAllPopBtn = new JMenuItem("Select All");
+		pm.add(cutPopBtn);
+		pm.add(copyPopBtn);
+		pm.add(pastePopBtn);
+		pm.add(deletePopBtn);
+		pm.add(selectAllPopBtn);
+		return pm;
 	}
 }

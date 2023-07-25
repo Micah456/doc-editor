@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
@@ -25,6 +27,7 @@ public class Controller {
 	private DocumentController dc;
 	private WindowController wc;
 	private CaretController cc;
+	private MouseController mc;
 	private DocFrame docFrame;
 	private DataHandler dataHandler;
 	
@@ -34,6 +37,7 @@ public class Controller {
 		this.dc = new DocumentController();
 		this.wc = new WindowController();
 		this.cc = new CaretController();
+		this.mc = new MouseController();
 		this.docFrame = docFrame;
 		this.dataHandler = dataHandler;
 		
@@ -78,8 +82,10 @@ public class Controller {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
-			if(e.getSource() == docFrame.textPane) {
-				//updateCounts();
+			if(e.getSource() == docFrame.textPane &&
+					e.getKeyCode() == 525) {//Popup menu key
+				docFrame.popupMenu.show(docFrame , docFrame.getWidth()/2, docFrame.getHeight()/2 - 40);
+				 
 			}
 		}
 		
@@ -184,6 +190,42 @@ public class Controller {
 			}
 		}
 	}
+	public class MouseController implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			if(e.getSource() == docFrame.textPane &&
+					e.getButton() == 3) {// Right click
+				docFrame.popupMenu.show(docFrame , e.getX(), e.getY()+40);
+			}
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 	
 	public ActionController getActionController() {
 		return this.ac;
@@ -199,6 +241,9 @@ public class Controller {
 	}
 	public CaretController getCaretController() {
 		return this.cc;
+	}
+	public MouseController getMouseController() {
+		return this.mc;
 	}
 	private void updateCounts() {
 		int[] counts = calculateCounts(docFrame.textPane);
@@ -344,4 +389,5 @@ public class Controller {
 			docFrame.saveBtn.setEnabled(true);
 		}
 	}
+
 }
