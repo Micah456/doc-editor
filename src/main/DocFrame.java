@@ -31,6 +31,7 @@ public class DocFrame extends JFrame{
 	
 	protected JMenuItem saveAsBtn;
 	protected JMenuItem openBtn;
+	protected JMenuItem newBtn;
 	
 	private ActionListener al;
 	private KeyListener kl;
@@ -56,10 +57,10 @@ public class DocFrame extends JFrame{
 		
 		menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
-		JMenuItem newFileItem = new JMenuItem("New");
+		newBtn = new JMenuItem("New");
 		saveAsBtn = new JMenuItem("Save As");
 		openBtn = new JMenuItem("Open");
-		fileMenu.add(newFileItem);
+		fileMenu.add(newBtn);
 		fileMenu.add(saveAsBtn);
 		fileMenu.add(openBtn);
 		menuBar.add(fileMenu);
@@ -97,6 +98,7 @@ public class DocFrame extends JFrame{
 		textPane.getDocument().addDocumentListener(dl);
 		saveAsBtn.addActionListener(al);
 		openBtn.addActionListener(al);
+		newBtn.addActionListener(al);
 		this.addWindowListener(wl);
 	}
 	protected void updateCounts(int lineCount, int wordCount) {

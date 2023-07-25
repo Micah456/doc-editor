@@ -48,6 +48,9 @@ public class Controller {
 			else if(e.getSource() == docFrame.openBtn) {
 				open();
 			}
+			else if(e.getSource() == docFrame.newBtn) {
+				newFile();
+			}
 			
 		}
 		
@@ -193,6 +196,27 @@ public class Controller {
 		else {
 			System.out.println("Save unsuccessful");
 		}
+		
+	}
+	private void newFile() {
+		if(dataHandler.fileUpdated) {
+			switch (showUnsavedWarning()) {
+				case JOptionPane.OK_OPTION:
+					System.out.println("Save!");
+					saveAs();
+					break;
+				case JOptionPane.NO_OPTION:
+					System.out.println("Don't save");
+					break;
+				default:
+					System.out.println("Cancel");
+					return;
+				
+			}
+		}
+		docFrame.textPane.setText("");
+		dataHandler.newFile();
+		updateCounts();
 		
 	}
 	private void open() {
