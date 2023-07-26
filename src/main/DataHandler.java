@@ -95,8 +95,9 @@ public class DataHandler {
 		updateFileUpdateStatus(false);
 	}
 	protected void copyData(JTextPane textPane) {
-		StringSelection stringSelection = new StringSelection(textPane.getSelectedText());
-	    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-	    clipboard.setContents(stringSelection, null);
+		textPane.copy();
+	}
+	protected void cutData(JTextPane textPane) {
+		textPane.cut();
 	}
 }

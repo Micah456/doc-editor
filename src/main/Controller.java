@@ -65,7 +65,7 @@ public class Controller {
 			}
 			else if(e.getSource() == docFrame.cutBtn || 
 					e.getSource() == docFrame.cutPopBtn){
-				System.out.println("Implement cut");
+				dataHandler.cutData(docFrame.textPane);
 			}
 		}
 	}
