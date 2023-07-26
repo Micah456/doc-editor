@@ -61,11 +61,15 @@ public class Controller {
 			}
 			else if(e.getSource() == docFrame.copyBtn ||
 					e.getSource() == docFrame.copyPopBtn) {
-				dataHandler.copyData(docFrame.textPane);
+				dataHandler.copySelected(docFrame.textPane);
 			}
 			else if(e.getSource() == docFrame.cutBtn || 
 					e.getSource() == docFrame.cutPopBtn){
-				dataHandler.cutData(docFrame.textPane);
+				dataHandler.cutSelected(docFrame.textPane);
+			}
+			else if(e.getSource() == docFrame.deleteBtn || 
+					e.getSource() == docFrame.deletePopBtn){
+				dataHandler.deleteSelected(docFrame.textPane);
 			}
 		}
 	}
@@ -191,12 +195,16 @@ public class Controller {
 				docFrame.copyPopBtn.setEnabled(true);
 				docFrame.cutBtn.setEnabled(true);
 				docFrame.cutPopBtn.setEnabled(true);
+				docFrame.deleteBtn.setEnabled(true);
+				docFrame.deletePopBtn.setEnabled(true);
 			}
 			else {
 				docFrame.copyBtn.setEnabled(false);
 				docFrame.copyPopBtn.setEnabled(false);
 				docFrame.cutBtn.setEnabled(false);
 				docFrame.cutPopBtn.setEnabled(false);
+				docFrame.deleteBtn.setEnabled(false);
+				docFrame.deletePopBtn.setEnabled(false);
 			}
 		}
 	}

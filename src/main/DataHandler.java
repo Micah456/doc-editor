@@ -94,10 +94,14 @@ public class DataHandler {
 		this.currFile = null;
 		updateFileUpdateStatus(false);
 	}
-	protected void copyData(JTextPane textPane) {
+	protected void copySelected(JTextPane textPane) {
 		textPane.copy();
 	}
-	protected void cutData(JTextPane textPane) {
+	protected void cutSelected(JTextPane textPane) {
 		textPane.cut();
+	}
+	protected void deleteSelected(JTextPane textPane) {
+		System.out.println("To implement delete selected");
+		
 	}
 }

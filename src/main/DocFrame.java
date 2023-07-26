@@ -31,6 +31,7 @@ public class DocFrame extends JFrame{
 	protected JPopupMenu popupMenu;
 	protected JMenuItem copyPopBtn;
 	protected JMenuItem cutPopBtn;
+	protected JMenuItem deletePopBtn;
 	
 	protected JMenuItem saveAsBtn;
 	protected JMenuItem openBtn;
@@ -38,6 +39,7 @@ public class DocFrame extends JFrame{
 	protected JMenuItem saveBtn;
 	protected JMenuItem copyBtn;
 	protected JMenuItem cutBtn;
+	protected JMenuItem deleteBtn;
 	
 	private ActionListener al;
 	private KeyListener kl;
@@ -82,13 +84,16 @@ public class DocFrame extends JFrame{
 		copyBtn = new JMenuItem("Copy");
 		cutBtn = new JMenuItem("Cut");
 		JMenuItem pasteEditItem = new JMenuItem("Paste");
+		deleteBtn = new JMenuItem("Delete");
 		copyBtn.setEnabled(false);
 		cutBtn.setEnabled(false);
+		deleteBtn.setEnabled(false);
 		editMenu.add(undoEditItem);
 		editMenu.add(redoEditItem);
 		editMenu.add(copyBtn);
 		editMenu.add(cutBtn);
 		editMenu.add(pasteEditItem);
+		editMenu.add(deleteBtn);
 		menuBar.add(editMenu);
 
 		this.setJMenuBar(menuBar);
@@ -122,9 +127,11 @@ public class DocFrame extends JFrame{
 		newBtn.addActionListener(al);
 		copyBtn.addActionListener(al);
 		cutBtn.addActionListener(al);
+		deleteBtn.addActionListener(al);
 		
 		copyPopBtn.addActionListener(al);
 		cutPopBtn.addActionListener(al);
+		deletePopBtn.addActionListener(al);
 		
 		this.addWindowListener(wl);
 	}
@@ -153,8 +160,11 @@ public class DocFrame extends JFrame{
 		cutPopBtn = new JMenuItem("Cut");
 		copyPopBtn = new JMenuItem("Copy");
 		JMenuItem pastePopBtn = new JMenuItem("Paste");
-		JMenuItem deletePopBtn = new JMenuItem("Delete");
+		deletePopBtn = new JMenuItem("Delete");
 		JMenuItem selectAllPopBtn = new JMenuItem("Select All");
+		cutPopBtn.setEnabled(false);
+		copyPopBtn.setEnabled(false);
+		deletePopBtn.setEnabled(false);
 		pm.add(cutPopBtn);
 		pm.add(copyPopBtn);
 		pm.add(pastePopBtn);
