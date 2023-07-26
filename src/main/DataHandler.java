@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,6 +9,7 @@ import java.io.IOException;
 
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
+import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
 public class DataHandler {
@@ -113,7 +115,19 @@ public class DataHandler {
 	protected void paste(JTextPane textPane) {
 		textPane.paste();
 	}
-	protected void undo() {
-		System.out.println("Implement undo");
+	protected boolean undo() {
+		try {
+			um.undo();
+			if(!um.canUndo()) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}catch(CannotUndoException c){
+			System.out.println("Can't undo: " + c.getMessage());
+			Toolkit.getDefaultToolkit().beep();
+			return false;
+		}
 	}
 }

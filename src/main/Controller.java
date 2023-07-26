@@ -86,7 +86,7 @@ public class Controller {
 				selectAll(docFrame.textPane);
 			}
 			else if(e.getSource() == docFrame.undoBtn){
-				dataHandler.undo();
+				undo();
 			}
 		}
 	}
@@ -112,7 +112,7 @@ public class Controller {
 				docFrame.popupMenu.show(docFrame , docFrame.getWidth()/2, docFrame.getHeight()/2 - 40); 
 			}
 			else if(e.getKeyCode() == 90 && e.isControlDown()){
-				dataHandler.undo();
+				undo();
 			}
 		}
 		
@@ -311,6 +311,11 @@ public class Controller {
 	}
 	private void selectAll(JTextPane textPane) {
 		textPane.selectAll();
+	}
+	private void undo() {
+		if(!dataHandler.undo()) {
+			docFrame.undoBtn.setEnabled(false);
+		}
 	}
 	private void saveAs() {
 		String saveFilePath = getSaveFilePath();
