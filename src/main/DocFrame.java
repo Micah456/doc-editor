@@ -16,6 +16,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextPane;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.UndoManager;
 
 public class DocFrame extends JFrame{
 	private final int width = 600;
@@ -44,6 +46,7 @@ public class DocFrame extends JFrame{
 	protected JMenuItem deleteBtn;
 	protected JMenuItem pasteBtn;
 	protected JMenuItem selectAllBtn;
+	protected JMenuItem undoBtn;
 	
 	private ActionListener al;
 	private KeyListener kl;
@@ -51,6 +54,7 @@ public class DocFrame extends JFrame{
 	private WindowListener wl;
 	private CaretListener cl;
 	private MouseListener ml;
+	private UndoableEditListener uel;
 	/**
 	 * 
 	 */
@@ -83,7 +87,7 @@ public class DocFrame extends JFrame{
 		menuBar.add(fileMenu);
 		
 		JMenu editMenu = new JMenu("Edit");
-		JMenuItem undoEditItem = new JMenuItem("Undo");
+		undoBtn = new JMenuItem("Undo");
 		JMenuItem redoEditItem = new JMenuItem("Redo");
 		copyBtn = new JMenuItem("Copy");
 		cutBtn = new JMenuItem("Cut");
@@ -93,7 +97,8 @@ public class DocFrame extends JFrame{
 		copyBtn.setEnabled(false);
 		cutBtn.setEnabled(false);
 		deleteBtn.setEnabled(false);
-		editMenu.add(undoEditItem);
+		undoBtn.setEnabled(false);
+		editMenu.add(undoBtn);
 		editMenu.add(redoEditItem);
 		editMenu.add(copyBtn);
 		editMenu.add(cutBtn);
@@ -122,11 +127,13 @@ public class DocFrame extends JFrame{
 		this.wl = controller.getWindowController();
 		this.cl = controller.getCaretController();
 		this.ml = controller.getMouseController();
+		this.uel = controller.getUndoController();
 		
 		textPane.addKeyListener(kl);
 		textPane.getDocument().addDocumentListener(dl);
 		textPane.addCaretListener(cl);
 		textPane.addMouseListener(ml);
+		textPane.getDocument().addUndoableEditListener(uel);
 		saveBtn.addActionListener(al);
 		saveAsBtn.addActionListener(al);
 		openBtn.addActionListener(al);
@@ -136,6 +143,7 @@ public class DocFrame extends JFrame{
 		deleteBtn.addActionListener(al);
 		pasteBtn.addActionListener(al);
 		selectAllBtn.addActionListener(al);
+		undoBtn.addActionListener(al);
 		
 		copyPopBtn.addActionListener(al);
 		cutPopBtn.addActionListener(al);

@@ -17,8 +17,12 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.undo.UndoManager;
+
 import document.Document;
 
 public class Controller {
@@ -28,6 +32,7 @@ public class Controller {
 	private WindowController wc;
 	private CaretController cc;
 	private MouseController mc;
+	private UndoController uc;
 	private DocFrame docFrame;
 	private DataHandler dataHandler;
 	
@@ -38,6 +43,7 @@ public class Controller {
 		this.wc = new WindowController();
 		this.cc = new CaretController();
 		this.mc = new MouseController();
+		this.uc = new UndoController();
 		this.docFrame = docFrame;
 		this.dataHandler = dataHandler;
 		
@@ -79,6 +85,9 @@ public class Controller {
 					e.getSource() == docFrame.selectAllPopBtn){
 				selectAll(docFrame.textPane);
 			}
+			else if(e.getSource() == docFrame.undoBtn){
+				undo();
+			}
 		}
 	}
 	public class KeyController implements KeyListener{
@@ -100,8 +109,10 @@ public class Controller {
 			// TODO Auto-generated method stub
 			if(e.getSource() == docFrame.textPane &&
 					e.getKeyCode() == 525) {//Popup menu key
-				docFrame.popupMenu.show(docFrame , docFrame.getWidth()/2, docFrame.getHeight()/2 - 40);
-				 
+				docFrame.popupMenu.show(docFrame , docFrame.getWidth()/2, docFrame.getHeight()/2 - 40); 
+			}
+			else if(e.getKeyCode() == 90 && e.isControlDown()){
+				undo();
 			}
 		}
 		
@@ -252,6 +263,16 @@ public class Controller {
 		}
 		
 	}
+	public class UndoController implements UndoableEditListener{
+
+		@Override
+		public void undoableEditHappened(UndoableEditEvent e) {
+			// TODO Auto-generated method stub
+			System.out.println("Undoable edit happened");
+			docFrame.undoBtn.setEnabled(true);
+			dataHandler.um.addEdit(e.getEdit());
+		}	
+	}
 	
 	public ActionController getActionController() {
 		return this.ac;
@@ -271,6 +292,9 @@ public class Controller {
 	public MouseController getMouseController() {
 		return this.mc;
 	}
+	public UndoController getUndoController() {
+		return this.uc;
+	}
 	private void updateCounts() {
 		int[] counts = calculateCounts(docFrame.textPane);
 		docFrame.updateCounts(counts[0], counts[1]);
@@ -287,6 +311,11 @@ public class Controller {
 	}
 	private void selectAll(JTextPane textPane) {
 		textPane.selectAll();
+	}
+	private void undo() {
+		if(!dataHandler.undo()) {
+			docFrame.undoBtn.setEnabled(false);
+		}
 	}
 	private void saveAs() {
 		String saveFilePath = getSaveFilePath();
@@ -321,6 +350,7 @@ public class Controller {
 		dataHandler.newFile();
 		updateCounts();
 		docFrame.saveBtn.setEnabled(false);
+		docFrame.undoBtn.setEnabled(false);
 		
 	}
 	private void open() {
@@ -348,6 +378,8 @@ public class Controller {
 				updateCounts();
 				dataHandler.updateFileUpdateStatus(false);
 				docFrame.saveBtn.setEnabled(false);
+				docFrame.undoBtn.setEnabled(false);
+				dataHandler.um.discardAllEdits();
 			}
 			else{
 				System.out.println("Open aborted: file could not be read.");
