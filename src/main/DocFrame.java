@@ -83,6 +83,7 @@ public class DocFrame extends JFrame{
 		cutBtn = new JMenuItem("Cut");
 		JMenuItem pasteEditItem = new JMenuItem("Paste");
 		copyBtn.setEnabled(false);
+		cutBtn.setEnabled(false);
 		editMenu.add(undoEditItem);
 		editMenu.add(redoEditItem);
 		editMenu.add(copyBtn);
