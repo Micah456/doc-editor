@@ -63,8 +63,11 @@ public class Controller {
 					e.getSource() == docFrame.copyPopBtn) {
 				dataHandler.copyData(docFrame.textPane);
 			}
+			else if(e.getSource() == docFrame.cutBtn || 
+					e.getSource() == docFrame.cutPopBtn){
+				dataHandler.cutData(docFrame.textPane);
+			}
 		}
-		
 	}
 	public class KeyController implements KeyListener{
 
@@ -186,10 +189,14 @@ public class Controller {
 			if(e.getDot() != e.getMark()) {
 				docFrame.copyBtn.setEnabled(true);
 				docFrame.copyPopBtn.setEnabled(true);
+				docFrame.cutBtn.setEnabled(true);
+				docFrame.cutPopBtn.setEnabled(true);
 			}
 			else {
 				docFrame.copyBtn.setEnabled(false);
 				docFrame.copyPopBtn.setEnabled(false);
+				docFrame.cutBtn.setEnabled(false);
+				docFrame.cutPopBtn.setEnabled(false);
 			}
 		}
 	}
