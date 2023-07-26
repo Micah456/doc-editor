@@ -71,6 +71,10 @@ public class Controller {
 					e.getSource() == docFrame.deletePopBtn){
 				dataHandler.deleteSelected(docFrame.textPane);
 			}
+			else if(e.getSource() == docFrame.pasteBtn || 
+					e.getSource() == docFrame.pastePopBtn){
+				dataHandler.paste(docFrame.textPane);
+			}
 		}
 	}
 	public class KeyController implements KeyListener{
