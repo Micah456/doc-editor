@@ -91,6 +91,7 @@ public class DataHandler {
 	protected void newFile() {
 		this.currFile = null;
 		updateFileUpdateStatus(false);
+		um.discardAllEdits();
 	}
 	protected void copySelected(JTextPane textPane) {
 		textPane.copy();
@@ -111,5 +112,8 @@ public class DataHandler {
 	}
 	protected void paste(JTextPane textPane) {
 		textPane.paste();
+	}
+	protected void undo() {
+		System.out.println("Implement undo");
 	}
 }

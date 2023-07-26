@@ -85,6 +85,9 @@ public class Controller {
 					e.getSource() == docFrame.selectAllPopBtn){
 				selectAll(docFrame.textPane);
 			}
+			else if(e.getSource() == docFrame.undoBtn){
+				dataHandler.undo();
+			}
 		}
 	}
 	public class KeyController implements KeyListener{
@@ -106,8 +109,10 @@ public class Controller {
 			// TODO Auto-generated method stub
 			if(e.getSource() == docFrame.textPane &&
 					e.getKeyCode() == 525) {//Popup menu key
-				docFrame.popupMenu.show(docFrame , docFrame.getWidth()/2, docFrame.getHeight()/2 - 40);
-				 
+				docFrame.popupMenu.show(docFrame , docFrame.getWidth()/2, docFrame.getHeight()/2 - 40); 
+			}
+			else if(e.getKeyCode() == 90 && e.isControlDown()){
+				dataHandler.undo();
 			}
 		}
 		
@@ -264,6 +269,8 @@ public class Controller {
 		public void undoableEditHappened(UndoableEditEvent e) {
 			// TODO Auto-generated method stub
 			System.out.println("Undoable edit happened");
+			docFrame.undoBtn.setEnabled(true);
+			dataHandler.um.addEdit(e.getEdit());
 		}	
 	}
 	
@@ -338,6 +345,7 @@ public class Controller {
 		dataHandler.newFile();
 		updateCounts();
 		docFrame.saveBtn.setEnabled(false);
+		docFrame.undoBtn.setEnabled(false);
 		
 	}
 	private void open() {
@@ -365,6 +373,8 @@ public class Controller {
 				updateCounts();
 				dataHandler.updateFileUpdateStatus(false);
 				docFrame.saveBtn.setEnabled(false);
+				docFrame.undoBtn.setEnabled(false);
+				dataHandler.um.discardAllEdits();
 			}
 			else{
 				System.out.println("Open aborted: file could not be read.");

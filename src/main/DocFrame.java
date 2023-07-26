@@ -46,6 +46,7 @@ public class DocFrame extends JFrame{
 	protected JMenuItem deleteBtn;
 	protected JMenuItem pasteBtn;
 	protected JMenuItem selectAllBtn;
+	protected JMenuItem undoBtn;
 	
 	private ActionListener al;
 	private KeyListener kl;
@@ -86,7 +87,7 @@ public class DocFrame extends JFrame{
 		menuBar.add(fileMenu);
 		
 		JMenu editMenu = new JMenu("Edit");
-		JMenuItem undoEditItem = new JMenuItem("Undo");
+		undoBtn = new JMenuItem("Undo");
 		JMenuItem redoEditItem = new JMenuItem("Redo");
 		copyBtn = new JMenuItem("Copy");
 		cutBtn = new JMenuItem("Cut");
@@ -96,7 +97,8 @@ public class DocFrame extends JFrame{
 		copyBtn.setEnabled(false);
 		cutBtn.setEnabled(false);
 		deleteBtn.setEnabled(false);
-		editMenu.add(undoEditItem);
+		undoBtn.setEnabled(false);
+		editMenu.add(undoBtn);
 		editMenu.add(redoEditItem);
 		editMenu.add(copyBtn);
 		editMenu.add(cutBtn);
@@ -141,6 +143,7 @@ public class DocFrame extends JFrame{
 		deleteBtn.addActionListener(al);
 		pasteBtn.addActionListener(al);
 		selectAllBtn.addActionListener(al);
+		undoBtn.addActionListener(al);
 		
 		copyPopBtn.addActionListener(al);
 		cutPopBtn.addActionListener(al);
