@@ -88,6 +88,9 @@ public class Controller {
 			else if(e.getSource() == docFrame.undoBtn){
 				undo();
 			}
+			else if(e.getSource() == docFrame.redoBtn){
+				redo();
+			}
 		}
 	}
 	public class KeyController implements KeyListener{
@@ -113,6 +116,9 @@ public class Controller {
 			}
 			else if(e.getKeyCode() == 90 && e.isControlDown()){
 				undo();
+			}
+			else if(e.getKeyCode() == 89 && e.isControlDown()){
+				redo();
 			}
 		}
 		
@@ -315,7 +321,16 @@ public class Controller {
 	private void undo() {
 		if(!dataHandler.undo()) {
 			docFrame.undoBtn.setEnabled(false);
+			dataHandler.updateFileUpdateStatus(false);
 		}
+		docFrame.redoBtn.setEnabled(true);
+	}
+	private void redo() {
+		if(!dataHandler.redo()) {
+			docFrame.redoBtn.setEnabled(false);
+		}
+		docFrame.undoBtn.setEnabled(true);
+		
 	}
 	private void saveAs() {
 		String saveFilePath = getSaveFilePath();
@@ -351,6 +366,7 @@ public class Controller {
 		updateCounts();
 		docFrame.saveBtn.setEnabled(false);
 		docFrame.undoBtn.setEnabled(false);
+		docFrame.redoBtn.setEnabled(false);
 		
 	}
 	private void open() {
@@ -379,6 +395,7 @@ public class Controller {
 				dataHandler.updateFileUpdateStatus(false);
 				docFrame.saveBtn.setEnabled(false);
 				docFrame.undoBtn.setEnabled(false);
+				docFrame.redoBtn.setEnabled(false);
 				dataHandler.um.discardAllEdits();
 			}
 			else{

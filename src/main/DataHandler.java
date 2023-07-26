@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
+import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
@@ -126,6 +127,21 @@ public class DataHandler {
 			}
 		}catch(CannotUndoException c){
 			System.out.println("Can't undo: " + c.getMessage());
+			Toolkit.getDefaultToolkit().beep();
+			return false;
+		}
+	}
+	protected boolean redo() {
+		try {
+			um.redo();
+			if(!um.canRedo()) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}catch(CannotRedoException c){
+			System.out.println("Can't redo: " + c.getMessage());
 			Toolkit.getDefaultToolkit().beep();
 			return false;
 		}
