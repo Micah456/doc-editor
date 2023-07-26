@@ -109,4 +109,7 @@ public class DataHandler {
 			System.out.println(e.getMessage());
 		}
 	}
+	protected void paste(JTextPane textPane) {
+		textPane.paste();
+	}
 }
