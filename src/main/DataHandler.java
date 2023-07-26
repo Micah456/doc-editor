@@ -110,6 +110,6 @@ public class DataHandler {
 		}
 	}
 	protected void paste(JTextPane textPane) {
-		System.out.println("To implement paste");
+		textPane.paste();
 	}
 }
