@@ -75,6 +75,10 @@ public class Controller {
 					e.getSource() == docFrame.pastePopBtn){
 				dataHandler.paste(docFrame.textPane);
 			}
+			else if(e.getSource() == docFrame.selectAllBtn || 
+					e.getSource() == docFrame.selectAllPopBtn){
+				selectAll(docFrame.textPane);
+			}
 		}
 	}
 	public class KeyController implements KeyListener{
@@ -280,6 +284,9 @@ public class Controller {
 		Document d = new Document(textPane.getText());
 		int[] results = {d.getNumLines(), d.getNumWords()};
 		return results;
+	}
+	private void selectAll(JTextPane textPane) {
+		textPane.selectAll();
 	}
 	private void saveAs() {
 		String saveFilePath = getSaveFilePath();
