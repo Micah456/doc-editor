@@ -17,7 +17,6 @@ import javax.swing.JTextPane;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.UndoableEditListener;
-import javax.swing.undo.UndoManager;
 
 public class DocFrame extends JFrame{
 	private final int width = 600;
@@ -47,6 +46,7 @@ public class DocFrame extends JFrame{
 	protected JMenuItem pasteBtn;
 	protected JMenuItem selectAllBtn;
 	protected JMenuItem undoBtn;
+	protected JMenuItem redoBtn;
 	
 	private ActionListener al;
 	private KeyListener kl;
@@ -88,7 +88,7 @@ public class DocFrame extends JFrame{
 		
 		JMenu editMenu = new JMenu("Edit");
 		undoBtn = new JMenuItem("Undo");
-		JMenuItem redoEditItem = new JMenuItem("Redo");
+		redoBtn = new JMenuItem("Redo");
 		copyBtn = new JMenuItem("Copy");
 		cutBtn = new JMenuItem("Cut");
 		pasteBtn = new JMenuItem("Paste");
@@ -98,8 +98,9 @@ public class DocFrame extends JFrame{
 		cutBtn.setEnabled(false);
 		deleteBtn.setEnabled(false);
 		undoBtn.setEnabled(false);
+		redoBtn.setEnabled(false);
 		editMenu.add(undoBtn);
-		editMenu.add(redoEditItem);
+		editMenu.add(redoBtn);
 		editMenu.add(copyBtn);
 		editMenu.add(cutBtn);
 		editMenu.add(pasteBtn);
@@ -144,6 +145,7 @@ public class DocFrame extends JFrame{
 		pasteBtn.addActionListener(al);
 		selectAllBtn.addActionListener(al);
 		undoBtn.addActionListener(al);
+		redoBtn.addActionListener(al);
 		
 		copyPopBtn.addActionListener(al);
 		cutPopBtn.addActionListener(al);
