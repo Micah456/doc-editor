@@ -1,8 +1,5 @@
 package main;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
 
 public class DataHandler {
 	protected File currFile; 
@@ -94,10 +92,21 @@ public class DataHandler {
 		this.currFile = null;
 		updateFileUpdateStatus(false);
 	}
-	protected void copyData(JTextPane textPane) {
+	protected void copySelected(JTextPane textPane) {
 		textPane.copy();
 	}
-	protected void cutData(JTextPane textPane) {
+	protected void cutSelected(JTextPane textPane) {
 		textPane.cut();
+	}
+	protected void deleteSelected(JTextPane textPane) {
+		try {
+			int startIndex = textPane.getSelectionStart();
+			int len = textPane.getSelectionEnd()- startIndex;
+			textPane.getDocument().remove(startIndex, len);
+			
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 	}
 }
