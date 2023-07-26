@@ -8,12 +8,12 @@ import java.io.IOException;
 
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
+import javax.swing.undo.UndoManager;
 
 public class DataHandler {
 	protected File currFile; 
 	protected boolean fileUpdated;
-	//protected String currFileName;
-	//protected String currDirectory;
+	protected final UndoManager um = new UndoManager();
 	public DataHandler() {
 		this.fileUpdated = false;
 	}

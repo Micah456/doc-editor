@@ -17,8 +17,12 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.undo.UndoManager;
+
 import document.Document;
 
 public class Controller {
@@ -28,6 +32,7 @@ public class Controller {
 	private WindowController wc;
 	private CaretController cc;
 	private MouseController mc;
+	private UndoController uc;
 	private DocFrame docFrame;
 	private DataHandler dataHandler;
 	
@@ -38,6 +43,7 @@ public class Controller {
 		this.wc = new WindowController();
 		this.cc = new CaretController();
 		this.mc = new MouseController();
+		this.uc = new UndoController();
 		this.docFrame = docFrame;
 		this.dataHandler = dataHandler;
 		
@@ -252,6 +258,14 @@ public class Controller {
 		}
 		
 	}
+	public class UndoController implements UndoableEditListener{
+
+		@Override
+		public void undoableEditHappened(UndoableEditEvent e) {
+			// TODO Auto-generated method stub
+			System.out.println("Undoable edit happened");
+		}	
+	}
 	
 	public ActionController getActionController() {
 		return this.ac;
@@ -270,6 +284,9 @@ public class Controller {
 	}
 	public MouseController getMouseController() {
 		return this.mc;
+	}
+	public UndoController getUndoController() {
+		return this.uc;
 	}
 	private void updateCounts() {
 		int[] counts = calculateCounts(docFrame.textPane);

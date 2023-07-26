@@ -16,6 +16,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextPane;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.UndoManager;
 
 public class DocFrame extends JFrame{
 	private final int width = 600;
@@ -51,6 +53,7 @@ public class DocFrame extends JFrame{
 	private WindowListener wl;
 	private CaretListener cl;
 	private MouseListener ml;
+	private UndoableEditListener uel;
 	/**
 	 * 
 	 */
@@ -122,11 +125,13 @@ public class DocFrame extends JFrame{
 		this.wl = controller.getWindowController();
 		this.cl = controller.getCaretController();
 		this.ml = controller.getMouseController();
+		this.uel = controller.getUndoController();
 		
 		textPane.addKeyListener(kl);
 		textPane.getDocument().addDocumentListener(dl);
 		textPane.addCaretListener(cl);
 		textPane.addMouseListener(ml);
+		textPane.getDocument().addUndoableEditListener(uel);
 		saveBtn.addActionListener(al);
 		saveAsBtn.addActionListener(al);
 		openBtn.addActionListener(al);
