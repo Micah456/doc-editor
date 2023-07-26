@@ -63,8 +63,11 @@ public class Controller {
 					e.getSource() == docFrame.copyPopBtn) {
 				dataHandler.copyData(docFrame.textPane);
 			}
+			else if(e.getSource() == docFrame.cutBtn || 
+					e.getSource() == docFrame.cutPopBtn){
+				System.out.println("Implement cut");
+			}
 		}
-		
 	}
 	public class KeyController implements KeyListener{
 
