@@ -58,4 +58,7 @@ public class Document {
 		}
 		return location;
 	}
+	public String getText() {
+		return this.text;
+	}
 }
