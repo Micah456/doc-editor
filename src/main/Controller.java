@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -334,12 +335,28 @@ public class Controller {
 		docFrame.findDialog.setVisible(true);
 	}
 	private void find(boolean findNext) {
-		if(findNext) {
-			System.out.println("Finding next");
+		//TODO Fix problem when text is "thththth" and query is "th"
+		/**NOTE: the select method doesn't take into account
+		 * the \n so I've introduced two offsets to help
+		 * 'translate' between the the two systems.
+		 */
+		System.out.println("Finding next");
+		String query = docFrame.findTextField.getText();
+		Document d = new Document(docFrame.textPane.getText());
+		int startIndex = docFrame.textPane.getCaretPosition();
+		int initialOffset = getOffset(startIndex, d.getText());
+		startIndex += initialOffset;
+		if(findNext == false) {startIndex-=(query.length() + 1);}
+		int[] location = d.find(findNext, startIndex, query);
+		if(location[0] == -1) {
+			Toolkit.getDefaultToolkit().beep();
+			System.out.println("Cannot find '" + query + "'.");
 		}
 		else {
-			System.out.println("Finding prev");
+			int offset = getOffset(location[0], d.getText());
+			docFrame.textPane.select(location[0]- offset, location[1] + 1 - offset);
 		}
+		
 	}
 	private void undo() {
 		if(!dataHandler.undo()) {
@@ -489,6 +506,20 @@ public class Controller {
 		if(!docFrame.saveBtn.isEnabled()) {
 			docFrame.saveBtn.setEnabled(true);
 		}
+	}
+	/**
+	 * When selecting found phrases, the newline character isn't counted
+	 * This causes the selection to be shifted to the right based
+	 * on how many newlines appear since the before the found phrase.
+	 * The offset must be subtracted when selecting position to be
+	 * selected.
+	 * @param startIndex where the starting position is
+	 * @param text the entire text being searched
+	 * @return the offset to remove
+	 */
+	private int getOffset(int startIndex, String text) {
+		String textUntilPos = text.substring(0, startIndex + 1);
+		return textUntilPos.split("\n").length - 1;
 	}
 
 }
