@@ -50,4 +50,29 @@ public class TestDocument {
 		assertEquals(1, d3.getNumLines());
 		assertEquals(0, d4.getNumLines());
 	}
+	@Test
+	public void testFindNext() {
+		int startIndex = 0;
+		String text = "I love pie so much love!";
+		Document d = new Document(text);
+		int[] location = d.find(true, startIndex, "love");
+		assertEquals(2, location[0]);
+		assertEquals(5, location[1]);
+		assertEquals("love", text.substring(location[0], location[1] +1 ));
+		startIndex = location[0] + 1;
+		location = d.find(true, startIndex, "love");
+		assertEquals(19, location[0]);
+		assertEquals(22, location[1]);
+		assertEquals("love", text.substring(location[0], location[1] + 1));
+		
+		location = d.find(false, startIndex, "love");
+		assertEquals(-1, location[0]);
+		assertEquals(-1, location[1]);
+		
+		text = "I dislike pie so much.";
+		d = new Document(text);
+		location = d.find(true, 0, "love");
+		assertEquals(-1, location[0]);
+		assertEquals(-1, location[1]);
+	}
 }
