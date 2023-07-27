@@ -165,7 +165,7 @@ public class Controller {
 				switch (showUnsavedWarning()) {
 					case JOptionPane.OK_OPTION:
 						System.out.println("Save!");
-						saveAs();
+						save();
 						break;
 					case JOptionPane.NO_OPTION:
 						System.out.println("Don't save");
@@ -350,7 +350,7 @@ public class Controller {
 			switch (showUnsavedWarning()) {
 				case JOptionPane.OK_OPTION:
 					System.out.println("Save!");
-					saveAs();
+					save();
 					break;
 				case JOptionPane.NO_OPTION:
 					System.out.println("Don't save");
@@ -375,7 +375,7 @@ public class Controller {
 			switch (showUnsavedWarning()) {
 				case JOptionPane.OK_OPTION:
 					System.out.println("Save!");
-					saveAs();
+					save();
 					break;
 				case JOptionPane.NO_OPTION:
 					System.out.println("Don't save");
