@@ -91,6 +91,9 @@ public class Controller {
 			else if(e.getSource() == docFrame.redoBtn){
 				redo();
 			}
+			else if(e.getSource() == docFrame.findBtn) {
+				openFind();
+			}
 		}
 	}
 	public class KeyController implements KeyListener{
