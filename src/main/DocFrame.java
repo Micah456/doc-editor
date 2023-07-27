@@ -2,10 +2,14 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowListener;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -13,6 +17,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentListener;
@@ -47,6 +52,11 @@ public class DocFrame extends JFrame{
 	protected JMenuItem selectAllBtn;
 	protected JMenuItem undoBtn;
 	protected JMenuItem redoBtn;
+	
+	protected JDialog findDialog;
+	protected JTextField findTextField;
+	protected JButton findNextBtn;
+	protected JButton findPrevBtn;
 	
 	private ActionListener al;
 	private KeyListener kl;
@@ -120,6 +130,7 @@ public class DocFrame extends JFrame{
 		statusBar.add(spellingWarningTF);
 		this.add(statusBar, BorderLayout.SOUTH);
 		popupMenu = createPopupMenu();
+		findDialog = createFindDialog();
 	}
 	public void setListeners(Controller controller) {
 		this.al = controller.getActionController();
@@ -152,6 +163,9 @@ public class DocFrame extends JFrame{
 		deletePopBtn.addActionListener(al);
 		pastePopBtn.addActionListener(al);
 		selectAllPopBtn.addActionListener(al);
+		
+		findPrevBtn.addActionListener(al);
+		findNextBtn.addActionListener(al);
 		
 		this.addWindowListener(wl);
 	}
@@ -191,5 +205,19 @@ public class DocFrame extends JFrame{
 		pm.add(deletePopBtn);
 		pm.add(selectAllPopBtn);
 		return pm;
+	}
+	private JDialog createFindDialog() {
+		JDialog jd = new JDialog(this);
+		findTextField = new JTextField(20);
+		findPrevBtn = new JButton("<");
+		findNextBtn = new JButton(">");
+		jd.setLayout(new FlowLayout());
+		jd.setTitle("Find");
+		jd.setLocation(200,50);
+		jd.add(findTextField);
+		jd.add(findPrevBtn);
+		jd.add(findNextBtn);
+		jd.pack();
+		return jd;
 	}
 }

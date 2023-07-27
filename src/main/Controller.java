@@ -120,6 +120,9 @@ public class Controller {
 			else if(e.getKeyCode() == 89 && e.isControlDown()){
 				redo();
 			}
+			else if(e.getKeyCode() == 70 && e.isControlDown()) {
+				openFind();
+			}
 		}
 		
 	}
@@ -317,6 +320,9 @@ public class Controller {
 	}
 	private void selectAll(JTextPane textPane) {
 		textPane.selectAll();
+	}
+	private void openFind() {
+		docFrame.findDialog.setVisible(true);
 	}
 	private void undo() {
 		if(!dataHandler.undo()) {
