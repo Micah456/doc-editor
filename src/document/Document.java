@@ -38,18 +38,18 @@ public class Document {
 	public int[] find(boolean findNext, int fromIndex, String query) {
 		int[] location = new int[2];
 		try {
-				if(findNext) {
+			if(findNext) {
 				location[0] = this.text.indexOf(query, fromIndex);
-				if(location[0] == -1) {
-					location[1] = -1;
-				}
-				else {
-					location[1] = location[0] + query.length() -1;
-				}
 				
 			}
 			else {
-				throw new Exception("Prev Find not implemented yet");
+				location[0] = this.text.lastIndexOf(query, fromIndex);
+			}
+			if(location[0] == -1) {
+				location[1] = -1;
+			}
+			else {
+				location[1] = location[0] + query.length() -1;
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
