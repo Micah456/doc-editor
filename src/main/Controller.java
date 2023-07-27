@@ -94,6 +94,12 @@ public class Controller {
 			else if(e.getSource() == docFrame.findBtn) {
 				openFind();
 			}
+			else if(e.getSource() == docFrame.findNextBtn) {
+				find(true);
+			}
+			else if(e.getSource() == docFrame.findPrevBtn) {
+				find(false);
+			}
 		}
 	}
 	public class KeyController implements KeyListener{
@@ -326,6 +332,14 @@ public class Controller {
 	}
 	private void openFind() {
 		docFrame.findDialog.setVisible(true);
+	}
+	private void find(boolean findNext) {
+		if(findNext) {
+			System.out.println("Finding next");
+		}
+		else {
+			System.out.println("Finding prev");
+		}
 	}
 	private void undo() {
 		if(!dataHandler.undo()) {
