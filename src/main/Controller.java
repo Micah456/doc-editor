@@ -347,19 +347,19 @@ public class Controller {
 		startIndex += initialOffset;
 		if(findNext == false) {startIndex-=(query.length() + 1);}
 		if(startIndex >= d.getText().length()) {
-			System.out.println("End of document reached.");
 			Toolkit.getDefaultToolkit().beep();
+			showWarning("End of document reached.");
 			return;
 		}
 		if(startIndex < 0) {
-			System.out.println("Beginning of document reached.");
 			Toolkit.getDefaultToolkit().beep();
+			showWarning("Beginning of document reached.");
 			return;
 		}
 		int[] location = d.find(findNext, startIndex, query);
 		if(location[0] == -1) {
 			Toolkit.getDefaultToolkit().beep();
-			System.out.println("Cannot find '" + query + "'.");
+			showWarning("Cannot find anymore '" + query + "'.");
 		}
 		else {
 			int offset = getOffset(location[0], d.getText());
@@ -536,6 +536,9 @@ public class Controller {
 			textUntilPos = text.substring(0, startIndex);
 		}
 		return textUntilPos.split("\n").length - 1;
+	}
+	private void showWarning(String message) {
+		JOptionPane.showMessageDialog(docFrame, message);
 	}
 
 }
