@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -91,6 +92,15 @@ public class Controller {
 			else if(e.getSource() == docFrame.redoBtn){
 				redo();
 			}
+			else if(e.getSource() == docFrame.findBtn) {
+				openFind();
+			}
+			else if(e.getSource() == docFrame.findNextBtn) {
+				find(true);
+			}
+			else if(e.getSource() == docFrame.findPrevBtn) {
+				find(false);
+			}
 		}
 	}
 	public class KeyController implements KeyListener{
@@ -119,6 +129,9 @@ public class Controller {
 			}
 			else if(e.getKeyCode() == 89 && e.isControlDown()){
 				redo();
+			}
+			else if(e.getKeyCode() == 70 && e.isControlDown()) {
+				openFind();
 			}
 		}
 		
@@ -318,6 +331,42 @@ public class Controller {
 	private void selectAll(JTextPane textPane) {
 		textPane.selectAll();
 	}
+	private void openFind() {
+		docFrame.findDialog.setVisible(true);
+	}
+	private void find(boolean findNext) {
+		/**NOTE: the select method doesn't take into account
+		 * the \n so I've introduced two offsets to help
+		 * 'translate' between the the two systems.
+		 */
+		System.out.println("Finding next");
+		String query = docFrame.findTextField.getText();
+		Document d = new Document(docFrame.textPane.getText());
+		int startIndex = docFrame.textPane.getCaretPosition();
+		int initialOffset = getOffset(startIndex, d.getText());
+		startIndex += initialOffset;
+		if(findNext == false) {startIndex-=(query.length() + 1);}
+		if(startIndex >= d.getText().length()) {
+			Toolkit.getDefaultToolkit().beep();
+			showWarning("End of document reached.");
+			return;
+		}
+		if(startIndex < 0) {
+			Toolkit.getDefaultToolkit().beep();
+			showWarning("Beginning of document reached.");
+			return;
+		}
+		int[] location = d.find(findNext, startIndex, query);
+		if(location[0] == -1) {
+			Toolkit.getDefaultToolkit().beep();
+			showWarning("Cannot find anymore '" + query + "'.");
+		}
+		else {
+			int offset = getOffset(location[0], d.getText());
+			docFrame.textPane.select(location[0]- offset, location[1] + 1 - offset);
+		}
+		
+	}
 	private void undo() {
 		if(!dataHandler.undo()) {
 			docFrame.undoBtn.setEnabled(false);
@@ -466,6 +515,30 @@ public class Controller {
 		if(!docFrame.saveBtn.isEnabled()) {
 			docFrame.saveBtn.setEnabled(true);
 		}
+	}
+	/**
+	 * When selecting found phrases, the newline character isn't counted
+	 * This causes the selection to be shifted to the right based
+	 * on how many newlines appear since the before the found phrase.
+	 * The offset must be subtracted when selecting position to be
+	 * selected.
+	 * @param startIndex where the starting position is
+	 * @param text the entire text being searched
+	 * @return the offset to remove
+	 */
+	private int getOffset(int startIndex, String text) {
+		String textUntilPos;
+		try {
+			textUntilPos = text.substring(0, startIndex + 1);
+		}
+		catch(IndexOutOfBoundsException ioe){
+			System.out.println(ioe.getMessage());
+			textUntilPos = text.substring(0, startIndex);
+		}
+		return textUntilPos.split("\n").length - 1;
+	}
+	private void showWarning(String message) {
+		JOptionPane.showMessageDialog(docFrame, message);
 	}
 
 }
