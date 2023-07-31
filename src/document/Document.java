@@ -1,14 +1,15 @@
 package document;
 
 import java.util.ArrayList;
+import document.SpellingErrorManager.SpellingError;
 
 public class Document {
 	private String text;
-	private ArrayList<SpellingError> spellingErrors;
+	private SpellingErrorManager sem;
 	public Document(String text) {
 		// TODO Auto-generated constructor stub
 		this.text = text;
-		this.spellingErrors = new ArrayList<>();
+		this.sem = new SpellingErrorManager();
 	}
 	/**
 	 * Counts the number of words in a document. A word is any non-space character
@@ -79,40 +80,25 @@ public class Document {
 		}
 		return words;
 	}
-	public void runSpellCheck() {
+	public void runSpellCheck(ArrayList<String> dictionary) {
 		//Split document into words
-		
+		ArrayList<String> words = this.getWords();
 		//Scan until spelling error found
-		//Search original text for location
-		//Check spelling error with same word and location don't exist
-		//If exists, find next and so on
-		//If doesn't exist, create spelling error and add to spellingerrors.
+		for(String word : words) {
+			if(!dictionary.contains(word)) {
+				//Check if error already exists and get position of latest occurrence
+				int[] latestPosition = sem.getLatestPosition(word);
+				//Search original text for location starting from location of last occurrence
+				int startIndex = this.text.indexOf(word, latestPosition[0] + 1);
+				int endIndex = startIndex + word.length();
+				//Create spelling error and add to sem
+				sem.addError(word, new int[] {startIndex, endIndex});
+			}
+		}
 	}
+
 	public ArrayList<SpellingError> getSpellingErrors(){
-		return this.spellingErrors;
+		return this.sem.getSpellingErrors();
 	}
-	public class SpellingError{
-		private String word;
-		private ArrayList<String> topAlternatives;
-		private int[] position;
-		protected SpellingError(String word, int[] position) {
-			this.word = word;
-			this.position = position;
-			this.topAlternatives = getAlternatives();
-		}
-		public String getWord() {
-			return this.word;
-		}
-		public int[] getPosition() {
-			return this.position;
-		}
-		public ArrayList<String> getTopAlternatives(){
-			return this.topAlternatives;
-		}
-		private ArrayList<String> getAlternatives() {
-			//TODO to be implemented
-			return new ArrayList<>();
-		}
-		
-	}
+	
 }
