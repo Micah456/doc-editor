@@ -335,7 +335,6 @@ public class Controller {
 		docFrame.findDialog.setVisible(true);
 	}
 	private void find(boolean findNext) {
-		//TODO Fix problem when text is "thththth" and query is "th"
 		/**NOTE: the select method doesn't take into account
 		 * the \n so I've introduced two offsets to help
 		 * 'translate' between the the two systems.
@@ -347,6 +346,16 @@ public class Controller {
 		int initialOffset = getOffset(startIndex, d.getText());
 		startIndex += initialOffset;
 		if(findNext == false) {startIndex-=(query.length() + 1);}
+		if(startIndex >= d.getText().length()) {
+			System.out.println("End of document reached.");
+			Toolkit.getDefaultToolkit().beep();
+			return;
+		}
+		if(startIndex < 0) {
+			System.out.println("Beginning of document reached.");
+			Toolkit.getDefaultToolkit().beep();
+			return;
+		}
 		int[] location = d.find(findNext, startIndex, query);
 		if(location[0] == -1) {
 			Toolkit.getDefaultToolkit().beep();
@@ -518,7 +527,14 @@ public class Controller {
 	 * @return the offset to remove
 	 */
 	private int getOffset(int startIndex, String text) {
-		String textUntilPos = text.substring(0, startIndex + 1);
+		String textUntilPos;
+		try {
+			textUntilPos = text.substring(0, startIndex + 1);
+		}
+		catch(IndexOutOfBoundsException ioe){
+			System.out.println(ioe.getMessage());
+			textUntilPos = text.substring(0, startIndex);
+		}
 		return textUntilPos.split("\n").length - 1;
 	}
 
