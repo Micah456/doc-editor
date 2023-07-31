@@ -15,7 +15,7 @@ public class Document {
 	 * @return int number of words
 	 */
 	public int getNumWords(){
-		if(this.text.isBlank()) {
+		/*if(this.text.isBlank()) {
 			return 0;
 		}
 		String[] tokens = this.text.split("[\s\n]+");
@@ -25,7 +25,8 @@ public class Document {
 				words--;
 			}
 		}
-		return words;
+		return words;*/
+		return getWords().size();
 		
 	}
 	/**
@@ -65,8 +66,27 @@ public class Document {
 	public String getText() {
 		return this.text;
 	}
+	private ArrayList<String> getWords(){
+		ArrayList<String> words = new ArrayList<>();
+		if(this.text.isBlank() || this.text.isEmpty()) {
+			return words;
+		}
+		String[] tokens = this.text.split("[\s\n]+");
+		for(String token : tokens) {
+			if(!token.matches("[^a-zA-Z0-9]+")) {
+				words.add(token);
+			}
+		}
+		return words;
+	}
 	public void runSpellCheck() {
+		//Split document into words
 		
+		//Scan until spelling error found
+		//Search original text for location
+		//Check spelling error with same word and location don't exist
+		//If exists, find next and so on
+		//If doesn't exist, create spelling error and add to spellingerrors.
 	}
 	public ArrayList<SpellingError> getSpellingErrors(){
 		return this.spellingErrors;
