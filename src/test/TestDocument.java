@@ -1,5 +1,6 @@
 package test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import document.Document;
@@ -95,5 +96,17 @@ public class TestDocument {
 		location = d.find(false, startIndex, "love");
 		assertEquals(-1, location[0]);
 		assertEquals(-1, location[1]);
+	}
+	@Test
+	public void testRunSpellCheck() {
+		fail();
+	}
+	@Test
+	public void testStrip() {
+		fail();
+	}
+	@Test
+	public void testContainsLetters() {
+		fail();
 	}
 }

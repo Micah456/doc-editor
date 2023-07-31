@@ -1,6 +1,7 @@
 package document;
 
 import java.util.ArrayList;
+
 import document.SpellingErrorManager.SpellingError;
 
 public class Document {
@@ -81,11 +82,15 @@ public class Document {
 		return words;
 	}
 	public void runSpellCheck(ArrayList<String> dictionary) {
+		//Clear SEM map before anything
+		this.sem.clearMap();
 		//Split document into words
 		ArrayList<String> words = this.getWords();
-		//Scan until spelling error found
+		//Scan until
 		for(String word : words) {
-			if(!dictionary.contains(word)) {
+			//word containing letters is not in dictionary
+			word = strip(word);
+			if(containsLetters(word) && !dictionary.contains(word)) {
 				//Check if error already exists and get position of latest occurrence
 				int[] latestPosition = sem.getLatestPosition(word);
 				//Search original text for location starting from location of last occurrence
@@ -95,6 +100,35 @@ public class Document {
 				sem.addError(word, new int[] {startIndex, endIndex});
 			}
 		}
+	}
+	public static boolean containsLetters(String word) {
+		//TODO test
+		return word.matches("[^a-zA-Z]*[a-zA-Z]+[^a-zA-Z]*");
+	}
+	public static String strip(String word) {
+		int startIndex = indexOfAlphaNumberical(word);
+		int endIndex = lastIndexOfAlphaNumberical(word);
+		return word.substring(startIndex,endIndex + 1);
+	}
+	private static int indexOfAlphaNumberical(String word) {
+		
+		for(int i = 0; i<word.length(); i++) {
+			char c = word.charAt(i);
+			if(Character.isDigit(c) || Character.isAlphabetic(c)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	private static int lastIndexOfAlphaNumberical(String word) {
+		
+		for(int i = word.length()-1; i>0; i--) {
+			char c = word.charAt(i);
+			if(Character.isDigit(c) || Character.isAlphabetic(c)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	public ArrayList<SpellingError> getSpellingErrors(){
