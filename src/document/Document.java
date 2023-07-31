@@ -1,10 +1,14 @@
 package document;
 
+import java.util.ArrayList;
+
 public class Document {
 	private String text;
+	private ArrayList<SpellingError> spellingErrors;
 	public Document(String text) {
 		// TODO Auto-generated constructor stub
 		this.text = text;
+		this.spellingErrors = new ArrayList<>();
 	}
 	/**
 	 * Counts the number of words in a document. A word is any non-space character
@@ -60,5 +64,35 @@ public class Document {
 	}
 	public String getText() {
 		return this.text;
+	}
+	public void runSpellCheck() {
+		
+	}
+	public ArrayList<SpellingError> getSpellingErrors(){
+		return this.spellingErrors;
+	}
+	public class SpellingError{
+		private String word;
+		private ArrayList<String> topAlternatives;
+		private int[] position;
+		protected SpellingError(String word, int[] position) {
+			this.word = word;
+			this.position = position;
+			this.topAlternatives = getAlternatives();
+		}
+		public String getWord() {
+			return this.word;
+		}
+		public int[] getPosition() {
+			return this.position;
+		}
+		public ArrayList<String> getTopAlternatives(){
+			return this.topAlternatives;
+		}
+		private ArrayList<String> getAlternatives() {
+			//TODO to be implemented
+			return new ArrayList<>();
+		}
+		
 	}
 }
