@@ -1,5 +1,7 @@
 package test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
@@ -99,14 +101,48 @@ public class TestDocument {
 	}
 	@Test
 	public void testRunSpellCheck() {
+		//TODO Create tests
 		fail();
 	}
 	@Test
 	public void testStrip() {
-		fail();
+		String answer = "Hello";
+		String strip1 = "Hello.";
+		String strip2 = "'Hello";
+		String strip3 = "'Hello,";
+		String answer2 = "I'm";
+		String strip4 = "I'm,";
+		String strip5 = "'I'm";
+		String strip6 = "I'm-";
+		String strip7 = "-I'm-";
+		
+		assertEquals(answer, Document.strip(answer));
+		assertEquals(answer, Document.strip(strip1));
+		assertEquals(answer, Document.strip(strip2));
+		assertEquals(answer, Document.strip(strip3));
+		assertEquals(answer2, Document.strip(answer2));
+		assertEquals(answer2, Document.strip(strip4));
+		assertEquals(answer2, Document.strip(strip5));
+		assertEquals(answer2, Document.strip(strip6));
+		assertEquals(answer2, Document.strip(strip7));
 	}
 	@Test
 	public void testContainsLetters() {
-		fail();
+		String lettersUpper = "ABC";
+		String lettersLower = "abc";
+		String lettersBoth = "AbC";
+		String lettersNum = "ABC1";
+		String lettersPunc = ")-ABC";
+		String nums = "123";
+		String numPunc = "123-.;";
+		String punc = ".,)!";
+		assertTrue(Document.containsLetters(lettersUpper));
+		assertTrue(Document.containsLetters(lettersLower));
+		assertTrue(Document.containsLetters(lettersBoth));
+		assertTrue(Document.containsLetters(lettersNum));
+		assertTrue(Document.containsLetters(lettersPunc));
+		assertFalse(Document.containsLetters(nums));
+		assertFalse(Document.containsLetters(numPunc));
+		assertFalse(Document.containsLetters(punc));
 	}
 }
