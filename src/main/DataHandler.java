@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
@@ -14,11 +16,16 @@ import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
 public class DataHandler {
+	private final File dictDir = new File("data/dictionaries");
+	private String defaultDict = "eng_dict";
+	public HashMap<String,ArrayList<String>> dictionaries;
+	private ArrayList<String> currDict;
 	protected File currFile; 
 	protected boolean fileUpdated;
 	protected final UndoManager um = new UndoManager();
 	public DataHandler() {
 		this.fileUpdated = false;
+		this.dictionaries = getDictionaries(this.dictDir);
 	}
 	protected boolean saveFile(String text, String path ) {
 		if(path == "") {
@@ -144,6 +151,55 @@ public class DataHandler {
 			System.out.println("Can't redo: " + c.getMessage());
 			Toolkit.getDefaultToolkit().beep();
 			return false;
+		}
+	}
+	public static HashMap<String,ArrayList<String>> getDictionaries(File dictDir){
+		HashMap<String, ArrayList<String>> dictionaries = new HashMap<>();
+		for(File f : dictDir.listFiles()) {
+			System.out.println("Reading file: '" + f.getName() + "'.");
+			String dictName = f.getName();
+			//Remove .txt
+			dictName = dictName.substring(0, dictName.length()-4);
+			ArrayList<String> content = getFileContent(f);
+			dictionaries.put(dictName, content);
+		}
+		return dictionaries;
+	}
+	private static ArrayList<String> getFileContent(File f){
+		ArrayList<String> content = new ArrayList<String>();
+		StringBuilder sb = new StringBuilder();
+		try {
+			FileReader fr = new FileReader(f);
+			int i;
+			while ((i = fr.read()) != -1) {
+                sb.append((char)i);
+            }
+			fr.close();
+			String data = sb.toString();
+			String[] dataArr = data.split("[\n\r]+");
+			for(String s : dataArr) {
+				content.add(s);
+			}
+			return content;
+		} catch (FileNotFoundException fe) {
+			// TODO Auto-generated catch block
+			System.out.println("Error: File '" + f.getName() + "' not found.");
+			return null;
+		} catch(IOException ie) {
+			System.out.println("Error: Error while reading file '" + f.getName() + "'.");
+			return null;
+		}
+		
+	}
+	protected void setDictionary(String dictionaryName) {
+		this.currDict = this.dictionaries.get(dictionaryName);
+	}
+	protected ArrayList<String> getCurrDictionary(){
+		if(this.currDict != null) {
+			return this.currDict;
+		}
+		else {
+			return this.dictionaries.get(defaultDict);
 		}
 	}
 }

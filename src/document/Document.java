@@ -1,17 +1,23 @@
 package document;
 
+import java.util.ArrayList;
+
+import document.SpellingErrorManager.SpellingError;
+
 public class Document {
 	private String text;
+	private SpellingErrorManager sem;
 	public Document(String text) {
 		// TODO Auto-generated constructor stub
 		this.text = text;
+		this.sem = new SpellingErrorManager();
 	}
 	/**
 	 * Counts the number of words in a document. A word is any non-space character
 	 * @return int number of words
 	 */
 	public int getNumWords(){
-		if(this.text.isBlank()) {
+		/*if(this.text.isBlank()) {
 			return 0;
 		}
 		String[] tokens = this.text.split("[\s\n]+");
@@ -21,7 +27,8 @@ public class Document {
 				words--;
 			}
 		}
-		return words;
+		return words;*/
+		return getWords().size();
 		
 	}
 	/**
@@ -61,4 +68,74 @@ public class Document {
 	public String getText() {
 		return this.text;
 	}
+	private ArrayList<String> getWords(){
+		ArrayList<String> words = new ArrayList<>();
+		if(this.text.isBlank() || this.text.isEmpty()) {
+			return words;
+		}
+		String[] tokens = this.text.split("[\s\n]+");
+		for(String token : tokens) {
+			if(!token.matches("[^a-zA-Z0-9]+")) {
+				words.add(token);
+			}
+		}
+		return words;
+	}
+	public void runSpellCheck(ArrayList<String> dictionary) {
+		for(String word : dictionary) {
+			word = word.toLowerCase();
+		}
+		//Clear SEM map before anything
+		this.sem.clearMap();
+		//Split document into words
+		ArrayList<String> words = this.getWords();
+		//Scan until
+		for(String word : words) {
+			//word containing letters is not in dictionary
+			word = strip(word);
+			if(containsLetters(word) && !dictionary.contains(word.toLowerCase())) {
+				//Check if error already exists and get position of latest occurrence
+				int[] latestPosition = sem.getLatestPosition(word);
+				//Search original text for location starting from location of last occurrence
+				int startIndex = this.text.indexOf(word, latestPosition[0] + 1);
+				int endIndex = startIndex + word.length() - 1;
+				//Create spelling error and add to sem
+				sem.addError(word, new int[] {startIndex, endIndex});
+			}
+		}
+	}
+	public static boolean containsLetters(String word) {
+		//TODO test
+		return word.matches("[^a-zA-Z]*[a-zA-Z]+[^a-zA-Z]*");
+	}
+	public static String strip(String word) {
+		int startIndex = indexOfAlphaNumberical(word);
+		int endIndex = lastIndexOfAlphaNumberical(word);
+		return word.substring(startIndex,endIndex + 1);
+	}
+	private static int indexOfAlphaNumberical(String word) {
+		
+		for(int i = 0; i<word.length(); i++) {
+			char c = word.charAt(i);
+			if(Character.isDigit(c) || Character.isAlphabetic(c)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	private static int lastIndexOfAlphaNumberical(String word) {
+		
+		for(int i = word.length()-1; i>0; i--) {
+			char c = word.charAt(i);
+			if(Character.isDigit(c) || Character.isAlphabetic(c)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public ArrayList<SpellingError> getSpellingErrors(){
+		return this.sem.getSpellingErrors();
+	}
+	
 }
