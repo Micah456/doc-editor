@@ -2,10 +2,14 @@ package test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.junit.Test;
 import document.Document;
+import document.SpellingErrorManager.SpellingError;
+import main.DataHandler;
 
 public class TestDocument {
 	@Test
@@ -102,7 +106,57 @@ public class TestDocument {
 	@Test
 	public void testRunSpellCheck() {
 		//TODO Create tests
-		fail();
+		HashMap<String,ArrayList<String>> dicts = DataHandler.getDictionaries(new File("data/dictionaries"));
+		ArrayList<String> eng_dict =  dicts.get("eng_dict");
+		String noErrorsText = "There once was a man who went to the store.";
+		String oneErrorText = "There once was a maan who went to the store.";
+		String sameErrorText = "I luv pie. Pie is so good I luv it.";
+		String twoDiffErrorText = "I luv pie. Piee is so good.";
+		
+		//No errors
+		Document d = new Document(noErrorsText);
+		d.runSpellCheck(eng_dict);
+		ArrayList<SpellingError> errors = d.getSpellingErrors();
+		assertEquals(0, errors.size());
+		
+		//One error
+		d = new Document(oneErrorText);
+		d.runSpellCheck(eng_dict);
+		errors = d.getSpellingErrors();
+		assertEquals(1, errors.size());
+		assertEquals("maan", errors.get(0).getWord());
+		assertEquals(17, errors.get(0).getPosition()[0]);
+		assertEquals(20, errors.get(0).getPosition()[1]);
+		
+		//Two same errors
+		d = new Document(sameErrorText);
+		d.runSpellCheck(eng_dict);
+		errors = d.getSpellingErrors();
+		assertEquals(2, errors.size());
+		assertEquals("luv", errors.get(0).getWord());
+		assertEquals(2, errors.get(0).getPosition()[0]);
+		assertEquals(4, errors.get(0).getPosition()[1]);
+		assertEquals("luv", errors.get(1).getWord());
+		assertEquals(28, errors.get(1).getPosition()[0]);
+		assertEquals(30, errors.get(1).getPosition()[1]);
+		
+		//Two different errors
+		d = new Document(twoDiffErrorText);
+		d.runSpellCheck(eng_dict);
+		errors = d.getSpellingErrors();
+		assertEquals(2, errors.size());
+		assertEquals("luv", errors.get(0).getWord());
+		assertEquals(2, errors.get(0).getPosition()[0]);
+		assertEquals(4, errors.get(0).getPosition()[1]);
+		assertEquals("Piee", errors.get(1).getWord());
+		assertEquals(11, errors.get(1).getPosition()[0]);
+		assertEquals(14, errors.get(1).getPosition()[1]);
+		
+		//Empty doc
+		d = new Document("");
+		d.runSpellCheck(eng_dict);
+		errors = d.getSpellingErrors();
+		assertEquals(0, errors.size());
 	}
 	@Test
 	public void testStrip() {

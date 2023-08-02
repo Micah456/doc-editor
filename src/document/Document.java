@@ -82,6 +82,9 @@ public class Document {
 		return words;
 	}
 	public void runSpellCheck(ArrayList<String> dictionary) {
+		for(String word : dictionary) {
+			word = word.toLowerCase();
+		}
 		//Clear SEM map before anything
 		this.sem.clearMap();
 		//Split document into words
@@ -90,12 +93,12 @@ public class Document {
 		for(String word : words) {
 			//word containing letters is not in dictionary
 			word = strip(word);
-			if(containsLetters(word) && !dictionary.contains(word)) {
+			if(containsLetters(word) && !dictionary.contains(word.toLowerCase())) {
 				//Check if error already exists and get position of latest occurrence
 				int[] latestPosition = sem.getLatestPosition(word);
 				//Search original text for location starting from location of last occurrence
 				int startIndex = this.text.indexOf(word, latestPosition[0] + 1);
-				int endIndex = startIndex + word.length();
+				int endIndex = startIndex + word.length() - 1;
 				//Create spelling error and add to sem
 				sem.addError(word, new int[] {startIndex, endIndex});
 			}
