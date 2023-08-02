@@ -10,6 +10,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.util.ArrayList;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -141,7 +143,7 @@ public class Controller {
 		@Override
 		public void insertUpdate(DocumentEvent e) {
 			// TODO Auto-generated method stub
-			updateCounts();
+			updateStats();
 			dataHandler.updateFileUpdateStatus(true);
 			enableSaveBtn();
 		}
@@ -149,7 +151,7 @@ public class Controller {
 		@Override
 		public void removeUpdate(DocumentEvent e) {
 			// TODO Auto-generated method stub
-			updateCounts();
+			updateStats();
 			dataHandler.updateFileUpdateStatus(true);
 			enableSaveBtn();
 		}
@@ -157,7 +159,7 @@ public class Controller {
 		@Override
 		public void changedUpdate(DocumentEvent e) {
 			// TODO Auto-generated method stub
-			updateCounts();
+			updateStats();
 			dataHandler.updateFileUpdateStatus(true);
 			enableSaveBtn();
 		}
@@ -314,17 +316,24 @@ public class Controller {
 	public UndoController getUndoController() {
 		return this.uc;
 	}
-	private void updateCounts() {
-		int[] counts = calculateCounts(docFrame.textPane);
+	private void updateStats() {
+		Document d = new Document(docFrame.textPane.getText());
+		ArrayList<String> dictionary = dataHandler.getCurrDictionary();
+		int[] counts = calculateCounts(d);
+		boolean spellingOkay = isSpellingOkay(d, dictionary);
 		docFrame.updateCounts(counts[0], counts[1]);
+		docFrame.updateSpellingStatus(spellingOkay);
+	}
+	private static boolean isSpellingOkay(Document d, ArrayList<String> dict) {
+		d.runSpellCheck(dict);
+		return d.getSpellingErrors().size() == 0;
 	}
 	/**
 	 * Calculates the line and word counts for a given JTextPane
 	 * @param textPane JTextPane containing text to analyse
 	 * @return int[] containing line and word count in that order.
 	 */
-	private static int[] calculateCounts(JTextPane textPane) {
-		Document d = new Document(textPane.getText());
+	private static int[] calculateCounts(Document d) {
 		int[] results = {d.getNumLines(), d.getNumWords()};
 		return results;
 	}
@@ -412,7 +421,7 @@ public class Controller {
 		}
 		docFrame.newFile();
 		dataHandler.newFile();
-		updateCounts();
+		updateStats();
 		docFrame.saveBtn.setEnabled(false);
 		docFrame.undoBtn.setEnabled(false);
 		docFrame.redoBtn.setEnabled(false);
@@ -440,7 +449,7 @@ public class Controller {
 			String text = dataHandler.readFile(fileToOpen);
 			if(text != null) {
 				docFrame.openFileInDocFrame(text, fileToOpen.getName());
-				updateCounts();
+				updateStats();
 				dataHandler.updateFileUpdateStatus(false);
 				docFrame.saveBtn.setEnabled(false);
 				docFrame.undoBtn.setEnabled(false);

@@ -17,7 +17,9 @@ import javax.swing.undo.UndoManager;
 
 public class DataHandler {
 	private final File dictDir = new File("data/dictionaries");
+	private String defaultDict = "eng_dict";
 	public HashMap<String,ArrayList<String>> dictionaries;
+	private ArrayList<String> currDict;
 	protected File currFile; 
 	protected boolean fileUpdated;
 	protected final UndoManager um = new UndoManager();
@@ -188,5 +190,16 @@ public class DataHandler {
 			return null;
 		}
 		
+	}
+	protected void setDictionary(String dictionaryName) {
+		this.currDict = this.dictionaries.get(dictionaryName);
+	}
+	protected ArrayList<String> getCurrDictionary(){
+		if(this.currDict != null) {
+			return this.currDict;
+		}
+		else {
+			return this.dictionaries.get(defaultDict);
+		}
 	}
 }

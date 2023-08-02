@@ -105,7 +105,6 @@ public class TestDocument {
 	}
 	@Test
 	public void testRunSpellCheck() {
-		//TODO Create tests
 		HashMap<String,ArrayList<String>> dicts = DataHandler.getDictionaries(new File("data/dictionaries"));
 		ArrayList<String> eng_dict =  dicts.get("eng_dict");
 		String noErrorsText = "There once was a man who went to the store.";

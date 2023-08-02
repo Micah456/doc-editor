@@ -224,4 +224,14 @@ public class DocFrame extends JFrame{
 		jd.pack();
 		return jd;
 	}
+	protected void updateSpellingStatus(boolean spellingOkay) {
+		String spellingStatus;
+		if(spellingOkay) {
+			spellingStatus = "Spelling: OK!";
+		}
+		else {
+			spellingStatus = "Spelling: errors";
+		}
+		spellingWarningTF.setText(spellingStatus);
+	}
 }
