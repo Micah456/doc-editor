@@ -15,9 +15,13 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 public class DataHandler {
 	private final File dictDir = new File("data/dictionaries");
-	private String defaultDict = "eng_dict";
+	private String defaultDict;
 	public HashMap<String,ArrayList<String>> dictionaries;
 	private ArrayList<String> currDict;
 	protected File currFile; 
@@ -201,5 +205,20 @@ public class DataHandler {
 		else {
 			return this.dictionaries.get(defaultDict);
 		}
+	}
+	protected JSONObject getAppSettings(String appSettingsFileName) {
+		JSONParser parser = new JSONParser();
+		Object obj = null;
+		try {
+			obj = parser.parse(new FileReader(appSettingsFileName));
+		} catch (IOException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return (JSONObject) obj;	
+	}
+	protected void applyAppSettings(JSONObject appSettings) {
+		this.defaultDict = (String) appSettings.get("defaultDictionary");
+		//TODO use this to add ignore list 
 	}
 }
