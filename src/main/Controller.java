@@ -26,6 +26,9 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.undo.UndoManager;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import document.Document;
 
 public class Controller {
@@ -38,6 +41,8 @@ public class Controller {
 	private UndoController uc;
 	private DocFrame docFrame;
 	private DataHandler dataHandler;
+	private JSONObject appSettings;
+	private String appSettingsFileName = "data/appSettings.json";
 	
 	public Controller(DocFrame docFrame, DataHandler dataHandler) {
 		this.kc = new KeyController();
@@ -49,6 +54,8 @@ public class Controller {
 		this.uc = new UndoController();
 		this.docFrame = docFrame;
 		this.dataHandler = dataHandler;
+		this.appSettings = dataHandler.getAppSettings(appSettingsFileName);
+		dataHandler.applyAppSettings(this.appSettings);
 		
 	}
 	public class ActionController implements ActionListener{
