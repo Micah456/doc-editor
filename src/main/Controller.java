@@ -29,6 +29,7 @@ import javax.swing.undo.UndoManager;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import component.SettingsMenu;
 import document.Document;
 
 public class Controller {
@@ -42,7 +43,7 @@ public class Controller {
 	private DocFrame docFrame;
 	private DataHandler dataHandler;
 	private JSONObject appSettings;
-	private String appSettingsFileName = "data/appSettings.json";
+	private static String appSettingsFileName = "data/appSettings.json";
 	
 	public Controller(DocFrame docFrame, DataHandler dataHandler) {
 		this.kc = new KeyController();
@@ -112,12 +113,6 @@ public class Controller {
 			}
 			else if(e.getSource() == docFrame.settingsBtn) {
 				openSettings();
-			}
-			else if(e.getSource() == docFrame.applySettingsBtn) {
-				applySettings();
-			}
-			else if(e.getSource() == docFrame.cancelSettingsBtn) {
-				cancelSettings();
 			}
 		}
 	}
@@ -357,7 +352,14 @@ public class Controller {
 		textPane.selectAll();
 	}
 	private void openSettings() {
-		docFrame.settingsDialog.setVisible(true);
+		try {
+			SettingsMenu sm = new SettingsMenu(docFrame, this.ac, dataHandler.getAppSettings(appSettingsFileName));
+			sm.setVisible(true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error: " + e.getMessage());
+		}
+		
 	}
 	private void applySettings() {
 		System.out.println("To implement apply settings");
@@ -577,5 +579,7 @@ public class Controller {
 	private void showWarning(String message) {
 		JOptionPane.showMessageDialog(docFrame, message);
 	}
-
+	protected static String getAppSettingsFileName() {
+		return appSettingsFileName;
+	}
 }

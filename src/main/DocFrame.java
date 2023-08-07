@@ -30,6 +30,8 @@ import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.UndoableEditListener;
 
+import component.SettingsMenu;
+
 public class DocFrame extends JFrame{
 	private final int width = 600;
 	private final int height = 500;
@@ -67,9 +69,6 @@ public class DocFrame extends JFrame{
 	protected JButton findNextBtn;
 	protected JButton findPrevBtn;
 	
-	protected JDialog settingsDialog;
-	protected JButton applySettingsBtn;
-	protected JButton cancelSettingsBtn;
 	
 	private ActionListener al;
 	private KeyListener kl;
@@ -148,7 +147,6 @@ public class DocFrame extends JFrame{
 		this.add(statusBar, BorderLayout.SOUTH);
 		popupMenu = createPopupMenu();
 		findDialog = createFindDialog();
-		settingsDialog = createSettingsDialog();
 	}
 	public void setListeners(Controller controller) {
 		this.al = controller.getActionController();
@@ -177,10 +175,7 @@ public class DocFrame extends JFrame{
 		redoBtn.addActionListener(al);
 		findBtn.addActionListener(al);
 		settingsBtn.addActionListener(al);
-		
-		applySettingsBtn.addActionListener(al);
-		cancelSettingsBtn.addActionListener(al);
-		
+				
 		copyPopBtn.addActionListener(al);
 		cutPopBtn.addActionListener(al);
 		deletePopBtn.addActionListener(al);
@@ -253,7 +248,7 @@ public class DocFrame extends JFrame{
 		}
 		spellingWarningTF.setText(spellingStatus);
 	}
-	private JDialog createSettingsDialog() {
+	/*private JDialog createSettingsDialog() {
 		GridLayout tabSectionLayout = new GridLayout(4,1);
 		JDialog jd = new JDialog(this);
 		jd.setTitle("Settings");
@@ -305,5 +300,5 @@ public class DocFrame extends JFrame{
 		
 		generalTab.add(defaultDictPanel);
 		return generalTab;
-	}
+	}*/
 }
