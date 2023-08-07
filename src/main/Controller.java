@@ -352,6 +352,7 @@ public class Controller {
 	}
 	private void openSettings() {
 		System.out.println("To implement open settings");
+		docFrame.settingsDialog.setVisible(true);
 	}
 	private void openFind() {
 		docFrame.findDialog.setVisible(true);

@@ -17,6 +17,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.event.CaretListener;
@@ -59,6 +60,8 @@ public class DocFrame extends JFrame{
 	protected JTextField findTextField;
 	protected JButton findNextBtn;
 	protected JButton findPrevBtn;
+	
+	protected JDialog settingsDialog;
 	
 	private ActionListener al;
 	private KeyListener kl;
@@ -137,6 +140,7 @@ public class DocFrame extends JFrame{
 		this.add(statusBar, BorderLayout.SOUTH);
 		popupMenu = createPopupMenu();
 		findDialog = createFindDialog();
+		settingsDialog = createSettingsDialog();
 	}
 	public void setListeners(Controller controller) {
 		this.al = controller.getActionController();
@@ -237,5 +241,20 @@ public class DocFrame extends JFrame{
 			spellingStatus = "Spelling: errors";
 		}
 		spellingWarningTF.setText(spellingStatus);
+	}
+	private JDialog createSettingsDialog() {
+		JDialog jd = new JDialog(this);
+		jd.setSize(300,300);
+		JTabbedPane tp = new JTabbedPane();
+		
+		JPanel generalTab = new JPanel();
+		
+		JPanel languageTab = new JPanel();
+		
+		tp.addTab("General", generalTab);
+		tp.addTab("Language", languageTab);
+		jd.add(tp);
+		
+		return jd;
 	}
 }
