@@ -20,7 +20,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class DataHandler {
-	private final File dictDir = new File("data/dictionaries");
+	public static final File dictDir = new File("data/dictionaries");
 	private String defaultDict;
 	public HashMap<String,ArrayList<String>> dictionaries;
 	private ArrayList<String> currDict;
@@ -29,7 +29,7 @@ public class DataHandler {
 	protected final UndoManager um = new UndoManager();
 	public DataHandler() {
 		this.fileUpdated = false;
-		this.dictionaries = getDictionaries(this.dictDir);
+		this.dictionaries = getDictionaries(dictDir);
 	}
 	protected boolean saveFile(String text, String path ) {
 		if(path == "") {
