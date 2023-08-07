@@ -62,6 +62,8 @@ public class DocFrame extends JFrame{
 	protected JButton findPrevBtn;
 	
 	protected JDialog settingsDialog;
+	protected JButton applySettingsBtn;
+	protected JButton cancelSettingsBtn;
 	
 	private ActionListener al;
 	private KeyListener kl;
@@ -170,6 +172,9 @@ public class DocFrame extends JFrame{
 		findBtn.addActionListener(al);
 		settingsBtn.addActionListener(al);
 		
+		applySettingsBtn.addActionListener(al);
+		cancelSettingsBtn.addActionListener(al);
+		
 		copyPopBtn.addActionListener(al);
 		cutPopBtn.addActionListener(al);
 		deletePopBtn.addActionListener(al);
@@ -244,6 +249,7 @@ public class DocFrame extends JFrame{
 	}
 	private JDialog createSettingsDialog() {
 		JDialog jd = new JDialog(this);
+		jd.setTitle("Settings");
 		jd.setSize(300,300);
 		JTabbedPane tp = new JTabbedPane();
 		
@@ -251,9 +257,18 @@ public class DocFrame extends JFrame{
 		
 		JPanel languageTab = new JPanel();
 		
+		applySettingsBtn = new JButton("Apply");
+		cancelSettingsBtn = new JButton("Cancel");
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout());
+		buttonPanel.add(applySettingsBtn);
+		buttonPanel.add(cancelSettingsBtn);
+		
 		tp.addTab("General", generalTab);
 		tp.addTab("Language", languageTab);
-		jd.add(tp);
+		jd.setLayout(new BorderLayout());
+		jd.add(tp, BorderLayout.CENTER);
+		jd.add(buttonPanel, BorderLayout.SOUTH);
 		
 		return jd;
 	}

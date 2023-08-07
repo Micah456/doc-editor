@@ -113,6 +113,12 @@ public class Controller {
 			else if(e.getSource() == docFrame.settingsBtn) {
 				openSettings();
 			}
+			else if(e.getSource() == docFrame.applySettingsBtn) {
+				applySettings();
+			}
+			else if(e.getSource() == docFrame.cancelSettingsBtn) {
+				cancelSettings();
+			}
 		}
 	}
 	public class KeyController implements KeyListener{
@@ -351,8 +357,16 @@ public class Controller {
 		textPane.selectAll();
 	}
 	private void openSettings() {
-		System.out.println("To implement open settings");
 		docFrame.settingsDialog.setVisible(true);
+	}
+	private void applySettings() {
+		System.out.println("To implement apply settings");
+	}
+	private void cancelSettings() {
+		System.out.println("To implement cancel settings");
+		//TODO You must reset the settings before closing
+		//otherwise the wrong settings will show when user
+		//opens the settings again
 	}
 	private void openFind() {
 		docFrame.findDialog.setVisible(true);
