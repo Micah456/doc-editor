@@ -28,6 +28,9 @@ public class SettingsMenu extends JDialog implements ActionListener{
 	private JSONObject jsonSettings;
 	private JTabbedPane tp;
 	private final GridLayout tabSectionLayout = new GridLayout(4,1);
+	
+	private JTextField ddsTextField;
+	
 	public SettingsMenu(JFrame parent, ActionListener al, JSONObject settings) throws Exception {
 		super(parent);
 		this.al = al;
@@ -62,27 +65,27 @@ public class SettingsMenu extends JDialog implements ActionListener{
 		JPanel generalTab = new JPanel();
 		generalTab.setLayout(tabSectionLayout);
 		
-		//Default Dict Panel - DDS
-		JPanel defaultDictPanel = new JPanel();
-		defaultDictPanel.setLayout(new GridLayout(2,1));
-		defaultDictPanel.setBorder(BorderFactory.createTitledBorder("Default Dictionary"));
+		//Default Dir Panel - DDS
+		JPanel defaultDirPanel = new JPanel();
+		defaultDirPanel.setLayout(new GridLayout(2,1));
+		defaultDirPanel.setBorder(BorderFactory.createTitledBorder("Default Directory"));
 		
-		JLabel ddsLab1 = new JLabel("Please set the default directory "
-				+ "to save to and open files from.");
+		JLabel ddsLab1 = new JLabel("This is a test.");
 		JPanel ddsActionPanel = new JPanel();
 		ddsActionPanel.setLayout(new FlowLayout());
 		
-		JTextField ddsTextField = new JTextField(30);
+		ddsTextField = new JTextField(30);
+		ddsTextField.setText((String)jsonSettings.get("testDefault"));
 		JButton ddsBrowseBtn = new JButton("Browse");
 		ddsBrowseBtn.addActionListener(this);
 		ddsBrowseBtn.setActionCommand("ddsBrowseBtn");
 		ddsActionPanel.add(ddsTextField);
 		ddsActionPanel.add(ddsBrowseBtn);
 		
-		defaultDictPanel.add(ddsLab1);
-		defaultDictPanel.add(ddsActionPanel);
+		defaultDirPanel.add(ddsLab1);
+		defaultDirPanel.add(ddsActionPanel);
 		
-		generalTab.add(defaultDictPanel);
+		generalTab.add(defaultDirPanel);
 		return generalTab;
 	}
 	
@@ -94,7 +97,7 @@ public class SettingsMenu extends JDialog implements ActionListener{
 		else if(this.jsonSettings == null) {
 			throw new Exception("JSON Settings Required.");
 		}
-		tp.addTab("General", new JScrollPane(getGeneralTab()));
+		//tp.addTab("General", new JScrollPane(getGeneralTab()));
 		tp.addTab("Language", new JScrollPane(getLanguageTab()));
 		
 	}
@@ -105,8 +108,5 @@ public class SettingsMenu extends JDialog implements ActionListener{
 		if(e.getActionCommand() == "ddsBrowseBtn") {
 			System.out.println("To implement browse for dds setting");
 		}
-	}
-	private void ddsBrowse() {
-		
 	}
 }
