@@ -17,6 +17,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.event.CaretListener;
@@ -53,11 +54,16 @@ public class DocFrame extends JFrame{
 	protected JMenuItem undoBtn;
 	protected JMenuItem redoBtn;
 	protected JMenuItem findBtn;
+	protected JMenuItem settingsBtn;
 	
 	protected JDialog findDialog;
 	protected JTextField findTextField;
 	protected JButton findNextBtn;
 	protected JButton findPrevBtn;
+	
+	protected JDialog settingsDialog;
+	protected JButton applySettingsBtn;
+	protected JButton cancelSettingsBtn;
 	
 	private ActionListener al;
 	private KeyListener kl;
@@ -90,11 +96,13 @@ public class DocFrame extends JFrame{
 		saveAsBtn = new JMenuItem("Save As");
 		openBtn = new JMenuItem("Open");
 		saveBtn = new JMenuItem("Save");
+		settingsBtn = new JMenuItem("Settings");
 		saveBtn.setEnabled(false);
 		fileMenu.add(newBtn);
 		fileMenu.add(saveBtn);
 		fileMenu.add(saveAsBtn);
 		fileMenu.add(openBtn);
+		fileMenu.add(settingsBtn);
 		menuBar.add(fileMenu);
 		
 		JMenu editMenu = new JMenu("Edit");
@@ -134,6 +142,7 @@ public class DocFrame extends JFrame{
 		this.add(statusBar, BorderLayout.SOUTH);
 		popupMenu = createPopupMenu();
 		findDialog = createFindDialog();
+		settingsDialog = createSettingsDialog();
 	}
 	public void setListeners(Controller controller) {
 		this.al = controller.getActionController();
@@ -161,6 +170,10 @@ public class DocFrame extends JFrame{
 		undoBtn.addActionListener(al);
 		redoBtn.addActionListener(al);
 		findBtn.addActionListener(al);
+		settingsBtn.addActionListener(al);
+		
+		applySettingsBtn.addActionListener(al);
+		cancelSettingsBtn.addActionListener(al);
 		
 		copyPopBtn.addActionListener(al);
 		cutPopBtn.addActionListener(al);
@@ -233,5 +246,30 @@ public class DocFrame extends JFrame{
 			spellingStatus = "Spelling: errors";
 		}
 		spellingWarningTF.setText(spellingStatus);
+	}
+	private JDialog createSettingsDialog() {
+		JDialog jd = new JDialog(this);
+		jd.setTitle("Settings");
+		jd.setSize(300,300);
+		JTabbedPane tp = new JTabbedPane();
+		
+		JPanel generalTab = new JPanel();
+		
+		JPanel languageTab = new JPanel();
+		
+		applySettingsBtn = new JButton("Apply");
+		cancelSettingsBtn = new JButton("Cancel");
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout());
+		buttonPanel.add(applySettingsBtn);
+		buttonPanel.add(cancelSettingsBtn);
+		
+		tp.addTab("General", generalTab);
+		tp.addTab("Language", languageTab);
+		jd.setLayout(new BorderLayout());
+		jd.add(tp, BorderLayout.CENTER);
+		jd.add(buttonPanel, BorderLayout.SOUTH);
+		
+		return jd;
 	}
 }
