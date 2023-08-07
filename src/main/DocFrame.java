@@ -53,6 +53,7 @@ public class DocFrame extends JFrame{
 	protected JMenuItem undoBtn;
 	protected JMenuItem redoBtn;
 	protected JMenuItem findBtn;
+	protected JMenuItem settingsBtn;
 	
 	protected JDialog findDialog;
 	protected JTextField findTextField;
@@ -90,11 +91,13 @@ public class DocFrame extends JFrame{
 		saveAsBtn = new JMenuItem("Save As");
 		openBtn = new JMenuItem("Open");
 		saveBtn = new JMenuItem("Save");
+		settingsBtn = new JMenuItem("Settings");
 		saveBtn.setEnabled(false);
 		fileMenu.add(newBtn);
 		fileMenu.add(saveBtn);
 		fileMenu.add(saveAsBtn);
 		fileMenu.add(openBtn);
+		fileMenu.add(settingsBtn);
 		menuBar.add(fileMenu);
 		
 		JMenu editMenu = new JMenu("Edit");
@@ -161,6 +164,7 @@ public class DocFrame extends JFrame{
 		undoBtn.addActionListener(al);
 		redoBtn.addActionListener(al);
 		findBtn.addActionListener(al);
+		settingsBtn.addActionListener(al);
 		
 		copyPopBtn.addActionListener(al);
 		cutPopBtn.addActionListener(al);

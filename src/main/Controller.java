@@ -110,6 +110,9 @@ public class Controller {
 			else if(e.getSource() == docFrame.findPrevBtn) {
 				find(false);
 			}
+			else if(e.getSource() == docFrame.settingsBtn) {
+				openSettings();
+			}
 		}
 	}
 	public class KeyController implements KeyListener{
@@ -346,6 +349,9 @@ public class Controller {
 	}
 	private void selectAll(JTextPane textPane) {
 		textPane.selectAll();
+	}
+	private void openSettings() {
+		System.out.println("To implement open settings");
 	}
 	private void openFind() {
 		docFrame.findDialog.setVisible(true);
