@@ -29,7 +29,7 @@ public class SettingsMenu extends JDialog implements ActionListener{
 	private JTabbedPane tp;
 	private final GridLayout tabSectionLayout = new GridLayout(4,1);
 	
-	private JTextField ddsTextField;
+	private JTextField ddTextField;
 	
 	public SettingsMenu(JFrame parent, ActionListener al, JSONObject settings) throws Exception {
 		super(parent);
@@ -59,36 +59,30 @@ public class SettingsMenu extends JDialog implements ActionListener{
 	private JPanel getLanguageTab() {
 		JPanel languageTab = new JPanel();
 		languageTab.setLayout(tabSectionLayout);
+		
+		//Default Dictionary Panel - DD
+		JPanel defaultDictPanel = new JPanel();
+		defaultDictPanel.setLayout(new GridLayout(2,1));
+		defaultDictPanel.setBorder(BorderFactory.createTitledBorder("Default Dictionary"));
+		
+		JLabel ddLabel = new JLabel("Select the default dictionary.");
+		JPanel ddActionPanel = new JPanel();
+		ddActionPanel.setLayout(new FlowLayout());
+		
+		ddTextField = new JTextField(30);
+		ddTextField.setText((String)jsonSettings.get("defaultDictionary"));
+		JButton ddBrowseBtn = new JButton("Browse");
+		ddBrowseBtn.addActionListener(this);
+		ddBrowseBtn.setActionCommand("ddBrowseBtn");
+		ddActionPanel.add(ddTextField);
+		ddActionPanel.add(ddBrowseBtn);
+		
+		defaultDictPanel.add(ddLabel);
+		defaultDictPanel.add(ddActionPanel);
+		
+		languageTab.add(defaultDictPanel);		
 		return languageTab;
 	}
-	private JPanel getGeneralTab() {
-		JPanel generalTab = new JPanel();
-		generalTab.setLayout(tabSectionLayout);
-		
-		//Default Dir Panel - DDS
-		JPanel defaultDirPanel = new JPanel();
-		defaultDirPanel.setLayout(new GridLayout(2,1));
-		defaultDirPanel.setBorder(BorderFactory.createTitledBorder("Default Directory"));
-		
-		JLabel ddsLab1 = new JLabel("This is a test.");
-		JPanel ddsActionPanel = new JPanel();
-		ddsActionPanel.setLayout(new FlowLayout());
-		
-		ddsTextField = new JTextField(30);
-		ddsTextField.setText((String)jsonSettings.get("testDefault"));
-		JButton ddsBrowseBtn = new JButton("Browse");
-		ddsBrowseBtn.addActionListener(this);
-		ddsBrowseBtn.setActionCommand("ddsBrowseBtn");
-		ddsActionPanel.add(ddsTextField);
-		ddsActionPanel.add(ddsBrowseBtn);
-		
-		defaultDirPanel.add(ddsLab1);
-		defaultDirPanel.add(ddsActionPanel);
-		
-		generalTab.add(defaultDirPanel);
-		return generalTab;
-	}
-	
 	
 	public void buildTabs() throws Exception {
 		if(this.al == null) {
@@ -105,8 +99,8 @@ public class SettingsMenu extends JDialog implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getActionCommand() == "ddsBrowseBtn") {
-			System.out.println("To implement browse for dds setting");
+		if(e.getActionCommand() == "ddBrowseBtn") {
+			System.out.println("To implement browse for dd");
 		}
 	}
 }
