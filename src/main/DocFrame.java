@@ -2,12 +2,16 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.LayoutManager;
+import java.awt.ScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -17,12 +21,16 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.UndoableEditListener;
+
+import component.SettingsMenu;
 
 public class DocFrame extends JFrame{
 	private final int width = 600;
@@ -61,9 +69,6 @@ public class DocFrame extends JFrame{
 	protected JButton findNextBtn;
 	protected JButton findPrevBtn;
 	
-	protected JDialog settingsDialog;
-	protected JButton applySettingsBtn;
-	protected JButton cancelSettingsBtn;
 	
 	private ActionListener al;
 	private KeyListener kl;
@@ -142,7 +147,6 @@ public class DocFrame extends JFrame{
 		this.add(statusBar, BorderLayout.SOUTH);
 		popupMenu = createPopupMenu();
 		findDialog = createFindDialog();
-		settingsDialog = createSettingsDialog();
 	}
 	public void setListeners(Controller controller) {
 		this.al = controller.getActionController();
@@ -171,10 +175,7 @@ public class DocFrame extends JFrame{
 		redoBtn.addActionListener(al);
 		findBtn.addActionListener(al);
 		settingsBtn.addActionListener(al);
-		
-		applySettingsBtn.addActionListener(al);
-		cancelSettingsBtn.addActionListener(al);
-		
+				
 		copyPopBtn.addActionListener(al);
 		cutPopBtn.addActionListener(al);
 		deletePopBtn.addActionListener(al);
@@ -247,15 +248,18 @@ public class DocFrame extends JFrame{
 		}
 		spellingWarningTF.setText(spellingStatus);
 	}
-	private JDialog createSettingsDialog() {
+	/*private JDialog createSettingsDialog() {
+		GridLayout tabSectionLayout = new GridLayout(4,1);
 		JDialog jd = new JDialog(this);
 		jd.setTitle("Settings");
-		jd.setSize(300,300);
+		jd.setSize(450,300);
 		JTabbedPane tp = new JTabbedPane();
 		
-		JPanel generalTab = new JPanel();
+		//General tab
+		JPanel generalTab = getGeneralTab(tabSectionLayout);
 		
 		JPanel languageTab = new JPanel();
+		languageTab.setLayout(tabSectionLayout);
 		
 		applySettingsBtn = new JButton("Apply");
 		cancelSettingsBtn = new JButton("Cancel");
@@ -264,12 +268,37 @@ public class DocFrame extends JFrame{
 		buttonPanel.add(applySettingsBtn);
 		buttonPanel.add(cancelSettingsBtn);
 		
-		tp.addTab("General", generalTab);
-		tp.addTab("Language", languageTab);
+		tp.addTab("General", new JScrollPane(generalTab));
+		tp.addTab("Language", new JScrollPane(languageTab));
 		jd.setLayout(new BorderLayout());
 		jd.add(tp, BorderLayout.CENTER);
 		jd.add(buttonPanel, BorderLayout.SOUTH);
 		
 		return jd;
 	}
+	private JPanel getGeneralTab(GridLayout tabSectionLayout) {
+		JPanel generalTab = new JPanel();
+		generalTab.setLayout(tabSectionLayout);
+		
+		//Default Dict Panel - DDS
+		JPanel defaultDictPanel = new JPanel();
+		defaultDictPanel.setLayout(new GridLayout(2,1));
+		defaultDictPanel.setBorder(BorderFactory.createTitledBorder("Default Dictionary"));
+		
+		JLabel ddsLab1 = new JLabel("Please set the default directory "
+				+ "to save to and open files from.");
+		JPanel ddsActionPanel = new JPanel();
+		ddsActionPanel.setLayout(new FlowLayout());
+		
+		JTextField ddsTextField = new JTextField(30);
+		JButton ddsBrowseBtn = new JButton("Browse");
+		ddsActionPanel.add(ddsTextField);
+		ddsActionPanel.add(ddsBrowseBtn);
+		
+		defaultDictPanel.add(ddsLab1);
+		defaultDictPanel.add(ddsActionPanel);
+		
+		generalTab.add(defaultDictPanel);
+		return generalTab;
+	}*/
 }
