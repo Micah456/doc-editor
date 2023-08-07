@@ -114,6 +114,12 @@ public class Controller {
 			else if(e.getSource() == docFrame.settingsBtn) {
 				openSettings();
 			}
+			else if(e.getActionCommand() == "SettingsMenu apply") {
+				applySettings();
+			}
+			else if(e.getActionCommand() == "SettingsMenu cancel") {
+				cancelSettings();
+			}
 		}
 	}
 	public class KeyController implements KeyListener{
@@ -359,7 +365,6 @@ public class Controller {
 			// TODO Auto-generated catch block
 			System.out.println("Error: " + e.getMessage());
 		}
-		
 	}
 	private void applySettings() {
 		System.out.println("To implement apply settings");

@@ -3,6 +3,7 @@ package component;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
@@ -17,7 +18,7 @@ import javax.swing.JTextField;
 
 import org.json.simple.JSONObject;
 
-public class SettingsMenu extends JDialog{
+public class SettingsMenu extends JDialog implements ActionListener{
 	
 	/**
 	 * 
@@ -37,6 +38,11 @@ public class SettingsMenu extends JDialog{
 		buildTabs();
 		JButton applySettingsBtn = new JButton("Apply");
 		JButton cancelSettingsBtn = new JButton("Cancel");
+		applySettingsBtn.addActionListener(al);
+		applySettingsBtn.setActionCommand("SettingsMenu apply");
+		cancelSettingsBtn.addActionListener(al);
+		cancelSettingsBtn.setActionCommand("SettingsMenu cancel");
+
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
 		buttonPanel.add(applySettingsBtn);
@@ -68,6 +74,8 @@ public class SettingsMenu extends JDialog{
 		
 		JTextField ddsTextField = new JTextField(30);
 		JButton ddsBrowseBtn = new JButton("Browse");
+		ddsBrowseBtn.addActionListener(this);
+		ddsBrowseBtn.setActionCommand("ddsBrowseBtn");
 		ddsActionPanel.add(ddsTextField);
 		ddsActionPanel.add(ddsBrowseBtn);
 		
@@ -88,6 +96,17 @@ public class SettingsMenu extends JDialog{
 		}
 		tp.addTab("General", new JScrollPane(getGeneralTab()));
 		tp.addTab("Language", new JScrollPane(getLanguageTab()));
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getActionCommand() == "ddsBrowseBtn") {
+			System.out.println("To implement browse for dds setting");
+		}
+	}
+	private void ddsBrowse() {
 		
 	}
 }
