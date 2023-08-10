@@ -24,6 +24,7 @@ public class DataHandler {
 	private String defaultDict;
 	public HashMap<String,ArrayList<String>> dictionaries;
 	private ArrayList<String> currDict;
+	private String currDictName;
 	protected File currFile; 
 	protected boolean fileUpdated;
 	protected final UndoManager um = new UndoManager();
@@ -197,14 +198,22 @@ public class DataHandler {
 	}
 	protected void setDictionary(String dictionaryName) {
 		this.currDict = this.dictionaries.get(dictionaryName);
+		this.currDictName = dictionaryName;
 	}
 	protected ArrayList<String> getCurrDictionary(){
 		if(this.currDict != null) {
 			return this.currDict;
 		}
 		else {
+			setDictionary(defaultDict);
 			return this.dictionaries.get(defaultDict);
 		}
+	}
+	public String getCurrDictName() {
+		if(currDictName == null) {
+			return defaultDict;
+		}
+		return currDictName;
 	}
 	protected JSONObject getAppSettings(String appSettingsFileName) {
 		JSONParser parser = new JSONParser();

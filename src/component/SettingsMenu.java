@@ -38,14 +38,18 @@ public class SettingsMenu extends JDialog implements ActionListener{
 	private ActionListener al;
 	private JSONObject jsonSettings;
 	private JTabbedPane tp;
+	private DataHandler dh;
 	private final GridLayout tabSectionLayout = new GridLayout(4,1,0,20);
 	
 	private JComboBox<String> ddCombo;
+	private JComboBox<String> sdCombo;
+	private JTextField adTextField;
 	
-	public SettingsMenu(JFrame parent, ActionListener al, JSONObject settings) throws Exception {
+	public SettingsMenu(JFrame parent, ActionListener al, DataHandler dh, JSONObject settings) throws Exception {
 		super(parent);
 		this.al = al;
 		this.jsonSettings = settings;
+		this.dh = dh;
 		this.setTitle("Settings");
 		this.setSize(450,300);
 		tp = new JTabbedPane();
@@ -94,10 +98,45 @@ public class SettingsMenu extends JDialog implements ActionListener{
 		//--------
 		//Set Dictionary - SD
 		JPanel setDictPanel = getSettingPanel("Set Current Dictionary",2,1);
+		
+		JLabel sdLabel = new JLabel("Select the current dictionary.");
+		sdCombo = new JComboBox<>(dicts);
+		String currDictName = this.dh.getCurrDictName();
+		int sdIndex = 0;
+		for(int i = 0; i<dicts.length; i++) {
+			if(dicts[i].equals(currDictName)) {
+				sdIndex = i;
+				break;
+			}
+		}
+		sdCombo.setSelectedIndex(sdIndex);
+		
+		setDictPanel.add(sdLabel);
+		setDictPanel.add(sdCombo);
+		
 		//--------
 		
 		//Add Dictionary - AD - requires JFileChooser
 		JPanel addDictPanel = getSettingPanel("Add Dictionary",2,1);
+		
+		JLabel adLabel = new JLabel("Add a new dictionary reference file.");
+		JPanel adPanel = new JPanel();
+		adPanel.setLayout(new FlowLayout());
+		adTextField = new JTextField(25);
+		adTextField.setEnabled(false);
+		JButton adBrowseBtn = new JButton("Browse");
+		adBrowseBtn.addActionListener(this);
+		adBrowseBtn.setActionCommand("AD - Browse");
+		JButton adClearBtn = new JButton("Clear");
+		adClearBtn.addActionListener(this);
+		adClearBtn.setActionCommand("AD - Clear");
+		
+		adPanel.add(adTextField);
+		adPanel.add(adBrowseBtn);
+		adPanel.add(adClearBtn);
+		
+		addDictPanel.add(adLabel);
+		addDictPanel.add(adPanel);
 		//--------
 		
 		//Ignored Words - IW - consider using JList, add and remove
@@ -126,6 +165,12 @@ public class SettingsMenu extends JDialog implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		if(e.getActionCommand().equals("AD - Browse")) {
+			adBrowse();
+		}
+		else if(e.getActionCommand().equals("AD - Clear")) {
+			adTextField.setText("");
+		}
 		
 	}
 	private JPanel getSettingPanel(String title, int rows, int cols) {
@@ -134,5 +179,14 @@ public class SettingsMenu extends JDialog implements ActionListener{
 		LineBorder lb = new LineBorder(Color.black, 2, true);
 		settingPanel.setBorder(new TitledBorder(lb, title));
 		return settingPanel;
+	}
+	private void adBrowse() {
+		JFileChooser fc = new JFileChooser();
+		FileFilter filter = new FileNameExtensionFilter("Text Documents", "txt");
+		fc.setFileFilter(filter);
+		int a = fc.showDialog(this, "Select");
+		if(a == JFileChooser.APPROVE_OPTION) {
+			adTextField.setText(fc.getSelectedFile().getName());
+		}
 	}
 }

@@ -359,7 +359,7 @@ public class Controller {
 	}
 	private void openSettings() {
 		try {
-			SettingsMenu sm = new SettingsMenu(docFrame, this.ac, dataHandler.getAppSettings(appSettingsFileName));
+			SettingsMenu sm = new SettingsMenu(docFrame, this.ac, dataHandler, this.appSettings);
 			sm.setVisible(true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
