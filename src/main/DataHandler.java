@@ -28,6 +28,7 @@ public class DataHandler {
 	protected File currFile; 
 	protected boolean fileUpdated;
 	protected final UndoManager um = new UndoManager();
+	private ArrayList<String> ignoredWords;
 	public DataHandler() {
 		this.fileUpdated = false;
 		this.dictionaries = getDictionaries(dictDir);
@@ -229,5 +230,19 @@ public class DataHandler {
 	protected void applyAppSettings(JSONObject appSettings) {
 		this.defaultDict = (String) appSettings.get("defaultDictionary");
 		//TODO use this to add ignore list 
+		this.ignoredWords = (ArrayList<String>) appSettings.get("ignoredWords");
+	}
+	public ArrayList<String> getIgnoredWords(){
+		return this.ignoredWords;
+	}
+	public String[] getIgnoredWordsAsArray() {
+		return convertToArray(this.ignoredWords);
+	}
+	public String[] convertToArray(ArrayList<String> stringList) {
+		String[] result = new String[stringList.size()];
+		for(int i = 0; i<stringList.size(); i++) {
+			result[i] = stringList.get(i);
+		}
+		return result;
 	}
 }
