@@ -234,6 +234,9 @@ public class DataHandler {
 		//TODO use this to add ignore list 
 		this.ignoredWords = (ArrayList<String>) appSettings.get("ignoredWords");
 	}
+	public void refreshAppSettings() {
+		applyAppSettings(getAppSettings(appSettingsFileName));
+	}
 	public ArrayList<String> getIgnoredWords(){
 		return this.ignoredWords;
 	}

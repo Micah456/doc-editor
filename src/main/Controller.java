@@ -358,6 +358,7 @@ public class Controller {
 		textPane.selectAll();
 	}
 	private void openSettings() {
+		this.appSettings = dataHandler.getAppSettings(appSettingsFileName);
 		try {
 			SettingsMenu sm = new SettingsMenu(docFrame, this, dataHandler, this.appSettings);
 			sm.setVisible(true);
