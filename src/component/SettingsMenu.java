@@ -286,6 +286,7 @@ public class SettingsMenu extends JDialog implements ActionListener{
 		makeLanguageChanges();
 		System.out.println(jsonSettings.toJSONString());
 		if(dh.updateSettingsFile(jsonSettings.toJSONString())) {
+			dh.refreshAppSettings();
 			this.c.showWarning("Settings Updated Successfully");
 		}
 		else {
