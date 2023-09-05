@@ -29,6 +29,8 @@ public class DataHandler {
 	protected boolean fileUpdated;
 	protected final UndoManager um = new UndoManager();
 	private ArrayList<String> ignoredWords;
+	private static String appSettingsFileName = "data/appSettings.json";
+
 	public DataHandler() {
 		this.fileUpdated = false;
 		this.dictionaries = getDictionaries(dictDir);
@@ -197,7 +199,7 @@ public class DataHandler {
 		}
 		
 	}
-	protected void setDictionary(String dictionaryName) {
+	public void setDictionary(String dictionaryName) {
 		this.currDict = this.dictionaries.get(dictionaryName);
 		this.currDictName = dictionaryName;
 	}
@@ -244,5 +246,58 @@ public class DataHandler {
 			result[i] = stringList.get(i);
 		}
 		return result;
+	}
+	public boolean updateSettingsFile(String jsonString) {
+		String path = appSettingsFileName;
+		System.out.println("Updating file: " + path);
+		try {
+            FileWriter fw = new FileWriter(path);
+            for (int i = 0; i < jsonString.length(); i++) {
+            	fw.write(jsonString.charAt(i));
+            }
+            fw.close();
+            return true;
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+	}
+	public boolean addDictionary(String dictPath) {
+		File f = new File(dictPath);
+		String dictName = f.getName();
+		StringBuilder sb = new StringBuilder();
+		String content;
+		try {
+			FileReader fr = new FileReader(f);
+			int i;
+			while ((i = fr.read()) != -1) {
+                sb.append((char)i);
+            }
+			fr.close();
+			content = sb.toString();
+		} catch (FileNotFoundException fe) {
+			// TODO Auto-generated catch block
+			System.out.println("Error: File not found");
+			return false;
+		} catch(IOException ie) {
+			System.out.println("Error: Error while reading file");
+			return false;
+		}
+		String newPath = dictDir.getAbsolutePath() + "\\" + dictName;
+		System.out.println("New file path: " + newPath);
+		System.out.println("File content:\n" + content);
+		try {
+            FileWriter fw = new FileWriter(newPath);
+            for (int i = 0; i < content.length(); i++) {
+            	fw.write(content.charAt(i));
+            }
+            fw.close();
+            return true;
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
 	}
 }

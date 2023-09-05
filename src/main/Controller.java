@@ -114,12 +114,12 @@ public class Controller {
 			else if(e.getSource() == docFrame.settingsBtn) {
 				openSettings();
 			}
-			else if(e.getActionCommand() == "SettingsMenu apply") {
+			/*else if(e.getActionCommand() == "SettingsMenu apply") {
 				applySettings();
 			}
 			else if(e.getActionCommand() == "SettingsMenu cancel") {
 				cancelSettings();
-			}
+			}*/
 		}
 	}
 	public class KeyController implements KeyListener{
@@ -359,14 +359,14 @@ public class Controller {
 	}
 	private void openSettings() {
 		try {
-			SettingsMenu sm = new SettingsMenu(docFrame, this.ac, dataHandler, this.appSettings);
+			SettingsMenu sm = new SettingsMenu(docFrame, this, dataHandler, this.appSettings);
 			sm.setVisible(true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
-	private void applySettings() {
+	/*private void applySettings() {
 		System.out.println("To implement apply settings");
 	}
 	private void cancelSettings() {
@@ -374,7 +374,7 @@ public class Controller {
 		//TODO You must reset the settings before closing
 		//otherwise the wrong settings will show when user
 		//opens the settings again
-	}
+	}*/
 	private void openFind() {
 		docFrame.findDialog.setVisible(true);
 	}
@@ -581,7 +581,7 @@ public class Controller {
 		}
 		return textUntilPos.split("\n").length - 1;
 	}
-	private void showWarning(String message) {
+	public void showWarning(String message) {
 		JOptionPane.showMessageDialog(docFrame, message);
 	}
 	protected static String getAppSettingsFileName() {

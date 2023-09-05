@@ -27,8 +27,10 @@ import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import main.Controller;
 import main.DataHandler;
 
 public class SettingsMenu extends JDialog implements ActionListener{
@@ -37,7 +39,7 @@ public class SettingsMenu extends JDialog implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private ActionListener al;
+	private Controller c;
 	private JSONObject jsonSettings;
 	private JTabbedPane tp;
 	private DataHandler dh;
@@ -51,9 +53,9 @@ public class SettingsMenu extends JDialog implements ActionListener{
 	private JTextField iwTextField;
 	private DefaultListModel<String> iwListModel;
 	
-	public SettingsMenu(JFrame parent, ActionListener al, DataHandler dh, JSONObject settings) throws Exception {
+	public SettingsMenu(JFrame parent, Controller c, DataHandler dh, JSONObject settings) throws Exception {
 		super(parent);
-		this.al = al;
+		this.c = c;
 		this.jsonSettings = settings;
 		this.dh = dh;
 		this.setTitle("Settings");
@@ -62,10 +64,10 @@ public class SettingsMenu extends JDialog implements ActionListener{
 		buildTabs();
 		JButton applySettingsBtn = new JButton("Apply");
 		JButton cancelSettingsBtn = new JButton("Cancel");
-		applySettingsBtn.addActionListener(al);
-		applySettingsBtn.setActionCommand("SettingsMenu apply");
-		cancelSettingsBtn.addActionListener(al);
-		cancelSettingsBtn.setActionCommand("SettingsMenu cancel");
+		applySettingsBtn.addActionListener(this);
+		applySettingsBtn.setActionCommand("SettingsMenu - apply");
+		cancelSettingsBtn.addActionListener(this);
+		cancelSettingsBtn.setActionCommand("SettingsMenu - cancel");
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
@@ -194,8 +196,8 @@ public class SettingsMenu extends JDialog implements ActionListener{
 	}
 	
 	public void buildTabs() throws Exception {
-		if(this.al == null) {
-			throw new Exception("Action Listener Required.");
+		if(this.c == null) {
+			throw new Exception("Controller Required.");
 		}
 		else if(this.jsonSettings == null) {
 			throw new Exception("JSON Settings Required.");
@@ -219,7 +221,13 @@ public class SettingsMenu extends JDialog implements ActionListener{
 		else if(e.getActionCommand().equals("IW - Remove")) {
 			removeIgnoredWord();
 		}
-		
+		else if(e.getActionCommand().equals("SettingsMenu - apply")) {
+			makeChanges();
+			this.dispose();
+		}
+		else if(e.getActionCommand().equals("SettingsMenu - cancel")) {
+			this.dispose();
+		}
 	}
 	private void addIgnoredWord() {
 		System.out.println("Adding ignored word.");
@@ -260,7 +268,7 @@ public class SettingsMenu extends JDialog implements ActionListener{
 		fc.setFileFilter(filter);
 		int a = fc.showDialog(this, "Select");
 		if(a == JFileChooser.APPROVE_OPTION) {
-			adTextField.setText(fc.getSelectedFile().getName());
+			adTextField.setText(fc.getSelectedFile().getAbsolutePath());
 		}
 	}
 	private boolean existsInModel(DefaultListModel<String> model, String word) {
@@ -275,9 +283,31 @@ public class SettingsMenu extends JDialog implements ActionListener{
 		//TODO this method will call other methods to make
 		//The appropriate changes
 		//For now, link to makeLanguageChanges
+		makeLanguageChanges();
+		System.out.println(jsonSettings.toJSONString());
+		if(dh.updateSettingsFile(jsonSettings.toJSONString())) {
+			this.c.showWarning("Settings Updated Successfully");
+		}
+		else {
+			this.c.showWarning("Settings Not Updated: an error has occurred.");
+		}
+		
 	}
 	
 	private void makeLanguageChanges() {
-		
+		//Make changes to setting file
+		jsonSettings.replace("defaultDictionary", ddCombo.getSelectedItem().toString());
+		JSONArray ja = new JSONArray();
+		for(int i = 0; i < iwListModel.getSize(); i++) {
+			ja.add(iwListModel.get(i));
+		}
+		jsonSettings.replace("ignoredWords", ja);
+		//Change current dictionary
+		dh.setDictionary((String)sdCombo.getSelectedItem());
+		//Add dictionary
+		String dictToAdd = adTextField.getText();
+		if(!dictToAdd.isBlank() && !dictToAdd.isEmpty()) {
+			dh.addDictionary(dictToAdd);
+		}
 	}
 }
