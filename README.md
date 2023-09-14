@@ -15,11 +15,11 @@ Word processor/editor windows application made using Java Swing following the MV
 * Redo
 * Copy
 * Paste
-* Toolbar
+* Highlighted word/character/line count
 * Status bar
 
 ## Stretch Features
 * Autocorrect
-* Highlighted word/character/line count
 * Text metadata (colour, style, etc)
 * Different languages?
+* Toolbar
