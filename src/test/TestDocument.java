@@ -198,4 +198,43 @@ public class TestDocument {
 		assertFalse(Document.containsLetters(numPunc));
 		assertFalse(Document.containsLetters(punc));
 	}
+	
+	@Test
+	public void testGetNumCharacters() {
+		String text1 = "Hi\n\nthere!";
+		String text2 = "Hello!";
+		String text3 = " ";
+		String text4 = " \n";
+		String text5 = "Hi there?";
+		Document d1 = new Document(text1);
+		Document d2 = new Document(text2);
+		Document d3 = new Document(text3);
+		Document d4 = new Document(text4);
+		Document d5 = new Document(text5);
+		assertEquals(10, d1.getNumCharacters());
+		assertEquals(6, d2.getNumCharacters());
+		assertEquals(1, d3.getNumCharacters());
+		assertEquals(2, d4.getNumCharacters());
+		assertEquals(9, d5.getNumCharacters());
+
+	}
+	
+	@Test
+	public void testGetNumCharNoSpace() {
+		String text1 = "Hi\n\nthere!";
+		String text2 = "Hello!";
+		String text3 = " ";
+		String text4 = " \n";
+		String text5 = "Hi there?";
+		Document d1 = new Document(text1);
+		Document d2 = new Document(text2);
+		Document d3 = new Document(text3);
+		Document d4 = new Document(text4);
+		Document d5 = new Document(text5);
+		assertEquals(8, d1.getNumCharNoSpace());
+		assertEquals(6, d2.getNumCharNoSpace());
+		assertEquals(0, d3.getNumCharNoSpace());
+		assertEquals(0, d4.getNumCharNoSpace());
+		assertEquals(8, d5.getNumCharNoSpace());
+	}
 }
