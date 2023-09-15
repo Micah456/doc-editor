@@ -114,6 +114,9 @@ public class Controller {
 			else if(e.getSource() == docFrame.settingsBtn) {
 				openSettings();
 			}
+			else if(e.getSource() == docFrame.statsBtn) {
+				openStats();
+			}
 			/*else if(e.getActionCommand() == "SettingsMenu apply") {
 				applySettings();
 			}
@@ -367,6 +370,10 @@ public class Controller {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
+	private void openStats() {
+		System.out.println("Opening stats");
+	}
+	
 	/*private void applySettings() {
 		System.out.println("To implement apply settings");
 	}
