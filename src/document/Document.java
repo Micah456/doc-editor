@@ -8,7 +8,6 @@ public class Document {
 	private String text;
 	private SpellingErrorManager sem;
 	public Document(String text) {
-		// TODO Auto-generated constructor stub
 		this.text = text;
 		this.sem = new SpellingErrorManager();
 	}
@@ -81,6 +80,21 @@ public class Document {
 		}
 		return words;
 	}
+	
+	public int getNumCharacters() {
+		return this.text.length();
+	}
+	
+	public int getNumCharNoSpace() {
+		int count = 0;
+		for(int i = 0; i < this.text.length(); i++) {
+			if(!Character.isWhitespace(this.text.charAt(i))) {
+				count++;
+			}
+		}
+		return count;
+	}
+		
 	public void runSpellCheck(ArrayList<String> dictionary) {
 		for(String word : dictionary) {
 			word = word.toLowerCase();
@@ -105,7 +119,6 @@ public class Document {
 		}
 	}
 	public static boolean containsLetters(String word) {
-		//TODO test
 		return word.matches("[^a-zA-Z]*[a-zA-Z]+[^a-zA-Z]*");
 	}
 	public static String strip(String word) {

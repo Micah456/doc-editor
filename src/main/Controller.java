@@ -11,7 +11,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.util.ArrayList;
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -24,12 +23,9 @@ import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.undo.UndoManager;
-
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
 import component.SettingsMenu;
+import component.StatsDialog;
 import document.Document;
 
 public class Controller {
@@ -113,6 +109,9 @@ public class Controller {
 			}
 			else if(e.getSource() == docFrame.settingsBtn) {
 				openSettings();
+			}
+			else if(e.getSource() == docFrame.statsBtn) {
+				openStats();
 			}
 			/*else if(e.getActionCommand() == "SettingsMenu apply") {
 				applySettings();
@@ -367,6 +366,34 @@ public class Controller {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
+	private void openStats() {
+		System.out.println("Opening stats");
+		ArrayList<String> data = new ArrayList<>();
+		Document d = new Document(docFrame.textPane.getText());
+		data.add("Characters");
+		data.add(Integer.toString(d.getNumCharacters()));
+		data.add("Characters (No spaces) ");
+		data.add(Integer.toString(d.getNumCharNoSpace()));
+		data.add("Words");
+		data.add(Integer.toString(d.getNumWords()));
+		data.add("Paragraphs"); 
+		data.add(Integer.toString(d.getNumLines()));//TODO Change when I amend this
+		Document d2 = new Document(docFrame.textPane.getSelectedText());
+		if(d2.getText() != null) {
+			data.add("Characters (selected)");
+			data.add(Integer.toString(d2.getNumCharacters()));
+			data.add("Characters \n(No spaces - selected) ");
+			data.add(Integer.toString(d2.getNumCharNoSpace()));
+			data.add("Words (selected)");
+			data.add(Integer.toString(d2.getNumWords()));
+			data.add("Paragraphs (selected)"); 
+			data.add(Integer.toString(d2.getNumLines()));//TODO Change when I amend this
+		}
+		StatsDialog sd = new StatsDialog(data);
+		sd.setLocation(200, 200);;
+		sd.setVisible(true);
+	}
+	
 	/*private void applySettings() {
 		System.out.println("To implement apply settings");
 	}
