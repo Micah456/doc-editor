@@ -242,6 +242,7 @@ public class DocFrame extends JFrame{
 		jd.pack();
 		return jd;
 	}
+
 	protected void updateSpellingStatus(boolean spellingOkay) {
 		String spellingStatus;
 		if(spellingOkay) {
