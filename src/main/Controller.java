@@ -339,13 +339,14 @@ public class Controller {
 	private void updateStats() {
 		Document d = new Document(docFrame.textPane.getText());
 		ArrayList<String> dictionary = dataHandler.getCurrDictionary();
+		ArrayList<String> ignoredWords = dataHandler.getIgnoredWords();
 		int[] counts = calculateCounts(d);
-		boolean spellingOkay = isSpellingOkay(d, dictionary);
+		boolean spellingOkay = isSpellingOkay(d, dictionary, ignoredWords);
 		docFrame.updateCounts(counts[0], counts[1]);
 		docFrame.updateSpellingStatus(spellingOkay);
 	}
-	private static boolean isSpellingOkay(Document d, ArrayList<String> dict) {
-		d.runSpellCheck(dict);
+	private static boolean isSpellingOkay(Document d, ArrayList<String> dict, ArrayList<String> ignoredWords) {
+		d.runSpellCheck(dict, ignoredWords);
 		return d.getSpellingErrors().size() == 0;
 	}
 	/**
