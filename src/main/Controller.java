@@ -53,6 +53,7 @@ public class Controller {
 		this.dataHandler = dataHandler;
 		this.appSettings = dataHandler.getAppSettings(appSettingsFileName);
 		dataHandler.applyAppSettings(this.appSettings);
+		changeDictBtnName();
 		
 	}
 	public class ActionController implements ActionListener{
@@ -112,6 +113,9 @@ public class Controller {
 			}
 			else if(e.getSource() == docFrame.statsBtn) {
 				openStats();
+			}
+			else if(e.getSource() == docFrame.dictBtn) {
+				openSettings();
 			}
 			/*else if(e.getActionCommand() == "SettingsMenu apply") {
 				applySettings();
@@ -614,5 +618,8 @@ public class Controller {
 	}
 	protected static String getAppSettingsFileName() {
 		return appSettingsFileName;
+	}
+	public void changeDictBtnName() {
+		docFrame.changeDictBtnText(dataHandler.getCurrDictName());
 	}
 }

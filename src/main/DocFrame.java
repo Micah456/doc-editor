@@ -42,6 +42,7 @@ public class DocFrame extends JFrame{
 	private JLabel paragraphsTF;
 	private JLabel wordsTF;
 	private JLabel spellingWarningTF;
+	protected JButton dictBtn;
 	
 	protected JPopupMenu popupMenu;
 	protected JMenuItem copyPopBtn;
@@ -144,9 +145,11 @@ public class DocFrame extends JFrame{
 		paragraphsTF = new JLabel("Paragraphs: 0");
 		wordsTF = new JLabel("Words: 0");
 		spellingWarningTF = new JLabel("Spelling: OK!");
+		dictBtn = new JButton("Dictionary");
 		statusBar.add(paragraphsTF);
 		statusBar.add(wordsTF);
 		statusBar.add(spellingWarningTF);
+		statusBar.add(dictBtn);
 		this.add(statusBar, BorderLayout.SOUTH);
 		popupMenu = createPopupMenu();
 		findDialog = createFindDialog();
@@ -188,6 +191,8 @@ public class DocFrame extends JFrame{
 		
 		findPrevBtn.addActionListener(al);
 		findNextBtn.addActionListener(al);
+		
+		dictBtn.addActionListener(al);
 		
 		this.addWindowListener(wl);
 	}
@@ -252,6 +257,10 @@ public class DocFrame extends JFrame{
 			spellingStatus = "Spelling: errors";
 		}
 		spellingWarningTF.setText(spellingStatus);
+	}
+	
+	protected void changeDictBtnText(String dictName) {
+		dictBtn.setText(dictName);
 	}
 	/*private JDialog createSettingsDialog() {
 		GridLayout tabSectionLayout = new GridLayout(4,1);
