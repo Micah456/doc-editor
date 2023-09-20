@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.print.PrinterException;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
@@ -116,6 +117,9 @@ public class Controller {
 			}
 			else if(e.getSource() == docFrame.dictBtn) {
 				openSettings();
+			}
+			else if(e.getSource() == docFrame.printBtn) {
+				print();
 			}
 			/*else if(e.getActionCommand() == "SettingsMenu apply") {
 				applySettings();
@@ -458,6 +462,16 @@ public class Controller {
 		docFrame.undoBtn.setEnabled(true);
 		
 	}
+	
+	private void print() {
+		try {
+			docFrame.textPane.print();
+		} catch (PrinterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	private void saveAs() {
 		String saveFilePath = getSaveFilePath();
 		if(saveFilePath != null && dataHandler.saveFile(docFrame.textPane.getText(), saveFilePath)) {

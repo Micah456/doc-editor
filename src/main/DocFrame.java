@@ -54,6 +54,7 @@ public class DocFrame extends JFrame{
 	protected JMenuItem saveAsBtn;
 	protected JMenuItem openBtn;
 	protected JMenuItem newBtn;
+	protected JMenuItem printBtn;
 	protected JMenuItem saveBtn;
 	protected JMenuItem copyBtn;
 	protected JMenuItem cutBtn;
@@ -103,6 +104,7 @@ public class DocFrame extends JFrame{
 		saveAsBtn = new JMenuItem("Save As");
 		openBtn = new JMenuItem("Open");
 		saveBtn = new JMenuItem("Save");
+		printBtn = new JMenuItem("Print");
 		settingsBtn = new JMenuItem("Settings");
 		statsBtn = new JMenuItem("Stats");
 		saveBtn.setEnabled(false);
@@ -110,6 +112,7 @@ public class DocFrame extends JFrame{
 		fileMenu.add(saveBtn);
 		fileMenu.add(saveAsBtn);
 		fileMenu.add(openBtn);
+		fileMenu.add(printBtn);
 		fileMenu.add(settingsBtn);
 		fileMenu.add(statsBtn);
 		menuBar.add(fileMenu);
@@ -171,6 +174,7 @@ public class DocFrame extends JFrame{
 		saveBtn.addActionListener(al);
 		saveAsBtn.addActionListener(al);
 		openBtn.addActionListener(al);
+		printBtn.addActionListener(al);
 		newBtn.addActionListener(al);
 		copyBtn.addActionListener(al);
 		cutBtn.addActionListener(al);
