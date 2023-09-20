@@ -31,11 +31,11 @@ public class Document {
 		
 	}
 	/**
-	 * Counts the number of lines in a document. If there is a newline at the
+	 * Counts the number of paragraphs in a document. If there is a newline at the
 	 * end of the document, this does not count as a new line.
-	 * @return int number of lines
+	 * @return int number of paragraphs
 	 */
-	public int getNumLines() {
+	public int getNumParagraphs() {
 		if(this.text.isBlank()) {
 			return 0;
 		}
