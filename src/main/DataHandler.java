@@ -303,4 +303,9 @@ public class DataHandler {
             return false;
         }
 	}
+	public boolean removeDictionary(String dictPath) {
+		System.out.println("Implement remove dictionary");
+		File f = new File(dictPath);
+		return f.delete();
+	}
 }

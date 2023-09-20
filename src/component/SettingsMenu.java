@@ -43,11 +43,12 @@ public class SettingsMenu extends JDialog implements ActionListener{
 	private JSONObject jsonSettings;
 	private JTabbedPane tp;
 	private DataHandler dh;
-	private final GridLayout tabSectionLayout = new GridLayout(4,1,0,20);
+	private final GridLayout tabSectionLayout = new GridLayout(5,1,0,20);
 	
 	private JComboBox<String> ddCombo;
 	private JComboBox<String> sdCombo;
 	private JTextField adTextField;
+	private JTextField rdTextField;
 	
 	private JList<String> iwWordList;
 	private JTextField iwTextField;
@@ -147,6 +148,29 @@ public class SettingsMenu extends JDialog implements ActionListener{
 		addDictPanel.add(adPanel);
 		//--------
 		
+		//Remove Dicitonary - RD - requires JFileChooser
+		JPanel remDictPanel = getSettingPanel("Remove Dictionary",2,1);
+		
+		JLabel rdLabel = new JLabel("Remove a dictionary reference file.");
+		JPanel rdPanel = new JPanel();
+		rdPanel.setLayout(new FlowLayout());
+		rdTextField = new JTextField(25);
+		rdTextField.setEnabled(false);
+		JButton rdBrowseBtn = new JButton("Browse");
+		rdBrowseBtn.addActionListener(this);
+		rdBrowseBtn.setActionCommand("RD - Browse");
+		JButton rdClearBtn = new JButton("Clear");
+		rdClearBtn.addActionListener(this);
+		rdClearBtn.setActionCommand("RD - Clear");
+		
+		rdPanel.add(rdTextField);
+		rdPanel.add(rdBrowseBtn);
+		rdPanel.add(rdClearBtn);
+		
+		remDictPanel.add(rdLabel);
+		remDictPanel.add(rdPanel);
+		//--------
+		
 		//Ignored Words - IW - consider using JList, add and remove
 		//btns and scrollpane
 		//JPanel ignoredWordsPanel = getSettingPanel("Ignored Words",3,1);
@@ -191,6 +215,7 @@ public class SettingsMenu extends JDialog implements ActionListener{
 		languageTab.add(defaultDictPanel);
 		languageTab.add(setDictPanel);
 		languageTab.add(addDictPanel);
+		languageTab.add(remDictPanel);
 		languageTab.add(ignoredWordsPanel);
 		return languageTab;
 	}
@@ -227,6 +252,12 @@ public class SettingsMenu extends JDialog implements ActionListener{
 		}
 		else if(e.getActionCommand().equals("SettingsMenu - cancel")) {
 			this.dispose();
+		}
+		else if(e.getActionCommand().equals("RD - Browse")) {
+			rdBrowse();
+		}
+		else if(e.getActionCommand().equals("RD - Clear")) {
+			rdTextField.setText("");
 		}
 	}
 	private void addIgnoredWord() {
@@ -271,6 +302,15 @@ public class SettingsMenu extends JDialog implements ActionListener{
 			adTextField.setText(fc.getSelectedFile().getAbsolutePath());
 		}
 	}
+	private void rdBrowse() {
+		JFileChooser fc = new JFileChooser(DataHandler.dictDir);
+		FileFilter filter = new FileNameExtensionFilter("Text Documents", "txt");
+		fc.setFileFilter(filter);
+		int a = fc.showDialog(this, "Select");
+		if(a == JFileChooser.APPROVE_OPTION) {
+			rdTextField.setText(fc.getSelectedFile().getAbsolutePath());
+		}
+	}
 	private boolean existsInModel(DefaultListModel<String> model, String word) {
 		for(int i = 0; i < model.getSize(); i++) {
 			if(model.get(i).equals(word)) {
@@ -310,6 +350,19 @@ public class SettingsMenu extends JDialog implements ActionListener{
 		String dictToAdd = adTextField.getText();
 		if(!dictToAdd.isBlank() && !dictToAdd.isEmpty()) {
 			dh.addDictionary(dictToAdd);
+		}
+		//Remove dictionary
+		String dictToRemove = rdTextField.getText();
+		if(!dictToRemove.isBlank() && !dictToRemove.isEmpty() && dictToRemove.contains(DataHandler.dictDir.getAbsolutePath())) {
+			if(dh.removeDictionary(dictToRemove)) {
+				System.out.println("File deleted");
+			}
+			else {
+				System.out.println("File not deleted");
+			}
+		}
+		else {
+			System.out.println("Blank or cannot remove dict");
 		}
 	}
 }
