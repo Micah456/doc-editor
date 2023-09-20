@@ -107,29 +107,38 @@ public class TestDocument {
 	public void testRunSpellCheck() {
 		HashMap<String,ArrayList<String>> dicts = DataHandler.getDictionaries(new File("data/dictionaries"));
 		ArrayList<String> eng_dict =  dicts.get("eng_dict");
+		ArrayList<String> ignored = new ArrayList<>();
+		ignored.add("Jojo");
 		String noErrorsText = "There once was a man who went to the store.";
 		String oneErrorText = "There once was a maan who went to the store.";
+		String oneIgnoredText = "I love jojo! Jojo is great!";
 		String sameErrorText = "I luv pie. Pie is so good I luv it.";
 		String twoDiffErrorText = "I luv pie. Piee is so good.";
 		
 		//No errors
 		Document d = new Document(noErrorsText);
-		d.runSpellCheck(eng_dict);
+		d.runSpellCheck(eng_dict, ignored);
 		ArrayList<SpellingError> errors = d.getSpellingErrors();
 		assertEquals(0, errors.size());
 		
 		//One error
 		d = new Document(oneErrorText);
-		d.runSpellCheck(eng_dict);
+		d.runSpellCheck(eng_dict, ignored);
 		errors = d.getSpellingErrors();
 		assertEquals(1, errors.size());
 		assertEquals("maan", errors.get(0).getWord());
 		assertEquals(17, errors.get(0).getPosition()[0]);
 		assertEquals(20, errors.get(0).getPosition()[1]);
 		
+		//Ignored Word
+		d = new Document(oneIgnoredText);
+		d.runSpellCheck(eng_dict, ignored);
+		errors = d.getSpellingErrors();
+		assertEquals(0, errors.size());
+		
 		//Two same errors
 		d = new Document(sameErrorText);
-		d.runSpellCheck(eng_dict);
+		d.runSpellCheck(eng_dict, ignored);
 		errors = d.getSpellingErrors();
 		assertEquals(2, errors.size());
 		assertEquals("luv", errors.get(0).getWord());
@@ -141,7 +150,7 @@ public class TestDocument {
 		
 		//Two different errors
 		d = new Document(twoDiffErrorText);
-		d.runSpellCheck(eng_dict);
+		d.runSpellCheck(eng_dict, ignored);
 		errors = d.getSpellingErrors();
 		assertEquals(2, errors.size());
 		assertEquals("luv", errors.get(0).getWord());
@@ -153,7 +162,7 @@ public class TestDocument {
 		
 		//Empty doc
 		d = new Document("");
-		d.runSpellCheck(eng_dict);
+		d.runSpellCheck(eng_dict, ignored);
 		errors = d.getSpellingErrors();
 		assertEquals(0, errors.size());
 	}

@@ -95,10 +95,14 @@ public class Document {
 		return count;
 	}
 		
-	public void runSpellCheck(ArrayList<String> dictionary) {
+	public void runSpellCheck(ArrayList<String> dictionary, ArrayList<String> ignoredWords) {
 		for(String word : dictionary) {
 			word = word.toLowerCase();
 		}
+		for(int i = 0; i < ignoredWords.size(); i++) {
+			ignoredWords.set(i, ignoredWords.get(i).toLowerCase());
+		}
+		dictionary.addAll(ignoredWords);
 		//Clear SEM map before anything
 		this.sem.clearMap();
 		//Split document into words
