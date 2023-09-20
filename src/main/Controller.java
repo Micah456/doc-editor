@@ -345,12 +345,12 @@ public class Controller {
 		return d.getSpellingErrors().size() == 0;
 	}
 	/**
-	 * Calculates the line and word counts for a given JTextPane
+	 * Calculates the paragraph and word counts for a given JTextPane
 	 * @param textPane JTextPane containing text to analyse
 	 * @return int[] containing line and word count in that order.
 	 */
 	private static int[] calculateCounts(Document d) {
-		int[] results = {d.getNumLines(), d.getNumWords()};
+		int[] results = {d.getNumParagraphs(), d.getNumWords()};
 		return results;
 	}
 	private void selectAll(JTextPane textPane) {
@@ -377,7 +377,7 @@ public class Controller {
 		data.add("Words");
 		data.add(Integer.toString(d.getNumWords()));
 		data.add("Paragraphs"); 
-		data.add(Integer.toString(d.getNumLines()));//TODO Change when I amend this
+		data.add(Integer.toString(d.getNumParagraphs()));//TODO Change when I amend this
 		Document d2 = new Document(docFrame.textPane.getSelectedText());
 		if(d2.getText() != null) {
 			data.add("Characters (selected)");
@@ -387,7 +387,7 @@ public class Controller {
 			data.add("Words (selected)");
 			data.add(Integer.toString(d2.getNumWords()));
 			data.add("Paragraphs (selected)"); 
-			data.add(Integer.toString(d2.getNumLines()));//TODO Change when I amend this
+			data.add(Integer.toString(d2.getNumParagraphs()));//TODO Change when I amend this
 		}
 		StatsDialog sd = new StatsDialog(data);
 		sd.setLocation(200, 200);;

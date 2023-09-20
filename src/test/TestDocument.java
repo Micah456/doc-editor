@@ -43,19 +43,19 @@ public class TestDocument {
 		assertEquals(2, d9.getNumWords());
 	}
 	@Test
-	public void testLineCount() {
-		String text = "This document has 1 line.";
-		String text2 = "This document has 2 lines.\nIt's true!";
-		String text3 = "This document has 1 line.\n";
+	public void testParagraphCount() {
+		String text = "This document has 1 paragraph.";
+		String text2 = "This document has 2 paragraphs.\nIt's true!";
+		String text3 = "This document has 1 paragraph.\n";
 		String text4 = "";
 		Document d = new Document(text);
 		Document d2 = new Document(text2);
 		Document d3 = new Document(text3);
 		Document d4 = new Document(text4);
-		assertEquals(1, d.getNumLines());
-		assertEquals(2, d2.getNumLines());
-		assertEquals(1, d3.getNumLines());
-		assertEquals(0, d4.getNumLines());
+		assertEquals(1, d.getNumParagraphs());
+		assertEquals(2, d2.getNumParagraphs());
+		assertEquals(1, d3.getNumParagraphs());
+		assertEquals(0, d4.getNumParagraphs());
 	}
 	@Test
 	public void testFindNext() {

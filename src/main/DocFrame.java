@@ -39,7 +39,7 @@ public class DocFrame extends JFrame{
 	protected JTextPane textPane;
 	private JMenuBar menuBar;
 	private JPanel statusBar;
-	private JLabel linesTF;
+	private JLabel paragraphsTF;
 	private JLabel wordsTF;
 	private JLabel spellingWarningTF;
 	
@@ -141,10 +141,10 @@ public class DocFrame extends JFrame{
 		
 		statusBar = new JPanel();
 		statusBar.setLayout(new FlowLayout());
-		linesTF = new JLabel("Lines: 0");
+		paragraphsTF = new JLabel("Paragraphs: 0");
 		wordsTF = new JLabel("Words: 0");
 		spellingWarningTF = new JLabel("Spelling: OK!");
-		statusBar.add(linesTF);
+		statusBar.add(paragraphsTF);
 		statusBar.add(wordsTF);
 		statusBar.add(spellingWarningTF);
 		this.add(statusBar, BorderLayout.SOUTH);
@@ -191,8 +191,8 @@ public class DocFrame extends JFrame{
 		
 		this.addWindowListener(wl);
 	}
-	protected void updateCounts(int lineCount, int wordCount) {
-		linesTF.setText("Lines: " + lineCount);
+	protected void updateCounts(int paraCount, int wordCount) {
+		paragraphsTF.setText("Paragraphs: " + paraCount);
 		wordsTF.setText("Words: " + wordCount);
 		textPane.invalidate();
 	}
